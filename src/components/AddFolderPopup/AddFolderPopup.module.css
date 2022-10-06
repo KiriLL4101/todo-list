@@ -1,0 +1,19 @@
+.popup{
+    @apply flex flex-col w-64 border border-gray-400 border-solid p-5 rounded-lg bg-white gap-y-3 relative
+}
+
+.colorsWrapper {
+    @apply flex items-center justify-between
+}
+
+.colorsWrapper i{
+    @apply w-4 h-4 cursor-pointer
+}
+
+.active{
+    @apply border-2 border-black border-solid
+}
+
+.close{
+    @apply absolute bottom-36 left-60 bg-white cursor-pointer
+}

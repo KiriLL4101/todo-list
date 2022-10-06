@@ -1,0 +1,3 @@
+.button{
+    @apply text-center bg-green-400 rounded text-white py-2 ease-out duration-300 hover:bg-green-300
+}

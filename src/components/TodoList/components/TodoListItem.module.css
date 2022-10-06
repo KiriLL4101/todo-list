@@ -1,0 +1,12 @@
+.item{
+    @apply flex items-center gap-x-4
+}
+
+.remove{
+    @apply opacity-0 ease-out duration-500 cursor-pointer
+}
+
+.item:hover .remove {
+    @apply opacity-25 hover:opacity-100
+}
+

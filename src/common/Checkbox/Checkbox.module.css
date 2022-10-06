@@ -1,0 +1,23 @@
+.checkbox{
+    @apply min-w-[25px] min-h-[25px] rounded-full border-stone-300 border-solid border-2 cursor-pointer flex justify-center items-center ease-out duration-200 hover:bg-stone-200
+}
+
+.checkboxActive{
+    @apply bg-green-400 border-green-500 hover:bg-green-400
+}
+
+.checkboxActive .check{
+    @apply opacity-100
+}
+
+.checkboxActive .check path {
+    stroke: #fff;
+}
+
+.checkbox:hover .check {
+    @apply opacity-100
+}
+
+.check{
+    @apply opacity-0 ease-out duration-200
+}

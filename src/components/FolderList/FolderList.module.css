@@ -1,0 +1,28 @@
+.aside{
+    @apply pt-16 pb-44 px-5 w-60 text-sm bg-slate-200
+}
+
+.allFolders {
+    @apply mb-10 w-full hover:shadow-md shadow-black
+}
+
+.folderItem {
+    @apply px-3 py-2 flex gap-x-[10px] items-center rounded ease-out duration-300 hover:bg-white
+}
+
+.activeItem{
+    @apply bg-white
+}
+
+.removeIcon {
+    @apply opacity-0 ease-out duration-300
+}
+
+.folderItem:hover .removeIcon {
+    @apply opacity-25 hover:opacity-100
+}
+
+.addFolder {
+    @apply w-full flex gap-x-[10px] items-center opacity-50 duration-300 hover:opacity-100 
+}
+

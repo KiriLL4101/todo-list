@@ -1,0 +1,15 @@
+.list{
+    @apply flex flex-col gap-3 px-6 my-8
+}
+
+.edit{
+    @apply cursor-pointer opacity-0 ml-4 ease-out duration-1000
+} 
+
+.title{
+    @apply text-3xl text-cyan-400 pb-5 border-solid border-slate-300 border-b-2 w-full flex items-center
+}
+
+.title:hover .edit {
+    @apply opacity-25 hover:opacity-40
+}
