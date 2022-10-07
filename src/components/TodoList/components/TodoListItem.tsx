@@ -12,12 +12,28 @@ interface TodoListItemProps {
   completed: boolean
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ text, completed }) => {
+const TodoListItem: React.FC<TodoListItemProps> = ({ id, text, completed }) => {
   const [isChecked, setIsChecked] = useState<boolean>(completed)
+
+  const onCompletedTodo = () => {
+    setIsChecked(prev => !prev)
+    fetch('http://localhost:3001/tasks/' + id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        completed: !isChecked
+      })
+    })
+      .catch(() => {
+        alert('Не удалось обновить задачу');
+      });
+  }
   
   return (
     <li className={styles.item}>
-        <Checkbox isChecked={isChecked} onClick={() => setIsChecked(prev => !prev)} />
+        <Checkbox isChecked={isChecked} onClick={onCompletedTodo} />
         <span className={'grow'}>{text}</span>
         <RemoveIcon className={styles.remove} />
     </li>

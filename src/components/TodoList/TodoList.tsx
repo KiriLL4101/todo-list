@@ -21,7 +21,6 @@ const TodoList: React.FC<TodoListProps> = ({ title, tasks }) => {
         }
       </ul>
     </>
-
   )
 }
 

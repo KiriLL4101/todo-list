@@ -1,5 +1,5 @@
 .aside{
-    @apply pt-16 pb-44 px-5 w-60 text-sm bg-slate-200
+    @apply pt-16 pb-44 px-5 w-60 text-sm bg-slate-200 relative
 }
 
 .allFolders {

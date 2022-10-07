@@ -1,5 +1,5 @@
 .popup{
-    @apply flex flex-col w-64 border border-gray-400 border-solid p-5 rounded-lg bg-white gap-y-3 relative
+    @apply flex flex-col w-64 border border-gray-400 border-solid p-5 rounded-lg bg-white gap-y-3 absolute left-12
 }
 
 .colorsWrapper {

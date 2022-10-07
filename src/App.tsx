@@ -34,15 +34,20 @@ export const App: React.FC = () => {
   }
 
   useEffect(() => {
+    refresh()
+  }, [])
+
+  const refresh = () => {
     fetch('http://localhost:3001/lists?_expand=color&_embed=tasks').then(res => res.json()).then(data => {      
       setLists(data)
+      getTasks(data[0]?.id)
     })
-  }, [])
+  }
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
       <main className="flex w-[800px] shadow-lg">
-        {lists.length > 0 && <FolderList lists={lists} getTasks={getTasks} />}
+        {lists.length > 0 && <FolderList lists={lists} getTasks={getTasks} refresh={refresh} />}
         <section className="p-14 w-full">
           <TodoList title={title} tasks={tasks} />
         </section>
