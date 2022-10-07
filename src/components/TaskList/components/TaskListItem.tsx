@@ -3,16 +3,16 @@ import Checkbox from '../../../common/Checkbox/Checkbox'
 
 import RemoveIcon from 'icon:../../../assets/img/remove.svg'
 
-import * as styles from './TodoListItem.module.css'
+import * as styles from './TaskListItem.module.css'
 
-interface TodoListItemProps {
+interface TaskListItemProps {
   id: number,
   listId: number,
   text: string,
   completed: boolean
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ id, text, completed }) => {
+const TaskListItem: React.FC<TaskListItemProps> = ({ id, text, completed }) => {
   const [isChecked, setIsChecked] = useState<boolean>(completed)
 
   const onCompletedTodo = () => {
@@ -40,4 +40,4 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id, text, completed }) => {
   )
 }
 
-export default TodoListItem
+export default TaskListItem

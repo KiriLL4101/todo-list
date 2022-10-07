@@ -11,7 +11,7 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 interface FolderListProps {
-  getTasks: (id: number) => void
+  getTasks: (folder: FolderItem[]) => void
   lists: FolderItem[]
   refresh: () => void
 }
@@ -21,12 +21,12 @@ const FolderList: React.FC<FolderListProps> = ({ lists, getTasks, refresh }) => 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   useEffect(() => {
-    getTasks(activeId)
+    getTasks([lists[0]])
   }, [])
 
-  const onClickFolder = (id: number) => {
-    getTasks(id)
-    setActiveId(id)
+  const onClickFolder = (folder: FolderItem[]) => {
+    getTasks(folder)
+    setActiveId(folder.length <= 1 ? folder[0].id : 0)
   }
 
   const onCloseHandler = () => {
@@ -43,14 +43,14 @@ const FolderList: React.FC<FolderListProps> = ({ lists, getTasks, refresh }) => 
   }
    
   return <aside className={styles.aside}>
-    <button className={classNames(styles.folderItem, styles.allFolders, {[styles.activeItem]: activeId === 0})} onClick={() => onClickFolder(0)}>
+    <button className={classNames(styles.folderItem, styles.allFolders, {[styles.activeItem]: activeId === 0})} onClick={() => onClickFolder(lists)}>
       <ListIcon />
       Все задачи
     </button>
     <div className='flex flex-col gap-y-1.5 mb-12'>
     {
       lists && lists.map(folder => {
-        return <button key={folder.id} className={classNames(styles.folderItem, {[styles.activeItem]: activeId === folder.id})} onClick={() => onClickFolder(folder.id)}>
+        return <button key={folder.id} className={classNames(styles.folderItem, {[styles.activeItem]: activeId === folder.id})} onClick={() => onClickFolder([folder])}>
           <Badge color={folder.color.name} />
           <span className='grow truncate text-start'>{folder.name}</span>
           <RemoveIcon className={styles.removeIcon} onClick={() => onRemoveFolder(folder.id)} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import TodoList from "./components/TodoList/TodoList"
+import TaskList from "./components/TaskList/TaskList"
 import FolderList from "./components/FolderList/FolderList"
 
 export interface FolderItem {
@@ -24,13 +24,11 @@ export interface Color {
 }
 
 export const App: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [lists, setLists] = useState<FolderItem[]>([])
-  const [title, setTitle] = useState<string>('')
+  const [selectedFolder, setSelectedFolder] = useState<FolderItem[]>([])
+  const [folderLists, setFolderLists] = useState<FolderItem[]>([])
 
-  const getTasks = (id: number) => {
-    setTasks(lists.find(v => v.id === id)?.tasks || [])
-    setTitle(lists.find(v => v.id === id)?.name || '')
+  const getTasks = (folder: FolderItem[]) => {
+    setSelectedFolder(folder)
   }
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export const App: React.FC = () => {
 
   const refresh = () => {
     fetch('http://localhost:3001/lists?_expand=color&_embed=tasks').then(res => res.json()).then(data => {      
-      setLists(data)
+      setFolderLists(data)
       getTasks(data[0]?.id)
     })
   }
@@ -47,9 +45,11 @@ export const App: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen w-screen">
       <main className="flex w-[800px] shadow-lg">
-        {lists.length > 0 && <FolderList lists={lists} getTasks={getTasks} refresh={refresh} />}
-        <section className="p-14 w-full">
-          <TodoList title={title} tasks={tasks} />
+        {folderLists.length > 0 && <FolderList lists={folderLists} getTasks={getTasks} refresh={refresh} />}
+        <section className="p-14 w-full h-[650px] overflow-y-scroll">
+          {
+            selectedFolder.length > 0 && selectedFolder.map(folder => <TaskList title={folder.name} tasks={folder.tasks} />)
+          }
         </section>
       </main>
     </div>
