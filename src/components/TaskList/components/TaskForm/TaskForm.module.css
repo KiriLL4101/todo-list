@@ -1,0 +1,7 @@
+.form{
+    @apply flex flex-col gap-y-4
+}
+
+.btnWrapper{
+    @apply flex gap-x-2
+}
