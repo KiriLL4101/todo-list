@@ -12,15 +12,9 @@ interface TodoListProps {
   tasks: Task[]
   title?: string
   listId: number
-  refresh: () => void
 }
 
-const TaskList: React.FC<TodoListProps> = ({
-  listId,
-  title,
-  tasks,
-  refresh,
-}) => {
+const TaskList: React.FC<TodoListProps> = ({ listId, title, tasks }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const onCloseHandler = () => {
@@ -38,7 +32,7 @@ const TaskList: React.FC<TodoListProps> = ({
       </ul>
 
       {isOpen ? (
-        <TaskForm onClose={onCloseHandler} listId={listId} refresh={refresh} />
+        <TaskForm onClose={onCloseHandler} listId={listId} />
       ) : (
         <button className={styles.addTaskBtn} onClick={() => setIsOpen(true)}>
           <Plus />

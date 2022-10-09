@@ -1,6 +1,7 @@
 import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
 import { ConfirmDialogProvider } from './common/Confirm/Confirm.context'
+import { StoreProvider } from './store/store.context'
 
 import { App } from './App'
 
@@ -8,7 +9,9 @@ const rootElement = document.getElementById('root')
 const root = ReactDOMClient.createRoot(rootElement!)
 
 root.render(
-  <ConfirmDialogProvider>
-    <App />
-  </ConfirmDialogProvider>
+  <StoreProvider>
+    <ConfirmDialogProvider>
+      <App />
+    </ConfirmDialogProvider>
+  </StoreProvider>
 )

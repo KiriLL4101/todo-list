@@ -1,5 +1,5 @@
 .popup{
-    @apply flex flex-col w-64 border border-gray-400 border-solid p-5 rounded-lg bg-white gap-y-3 absolute left-12
+    @apply flex flex-col w-64 border border-gray-400 border-solid p-5 rounded-lg bg-white gap-y-3 absolute left-12 z-[1]
 }
 
 .colorsWrapper {
@@ -15,5 +15,5 @@
 }
 
 .close{
-    @apply absolute bottom-36 left-60 bg-white cursor-pointer
+    @apply absolute bottom-[133px] left-60 cursor-pointer
 }

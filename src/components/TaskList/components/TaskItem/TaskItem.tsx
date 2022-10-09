@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Checkbox from '../../../../common/Checkbox/Checkbox'
 import useConfirm from '../../../../common/Confirm/Confirm.context'
+import useStore from '../../../../store/store.context'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
 
@@ -15,19 +16,14 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ id, text, completed }) => {
   const [isChecked, setIsChecked] = useState<boolean>(completed)
+
   const confirm = useConfirm()
+
+  const { completedTask, removeTask } = useStore()
 
   const onCompletedTodo = () => {
     setIsChecked(prev => !prev)
-    fetch('http://localhost:3001/tasks/' + id, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        completed: !isChecked,
-      }),
-    }).catch(() => {
+    completedTask(id, !isChecked).catch(() => {
       alert('Не удалось обновить задачу')
     })
   }
@@ -36,9 +32,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, text, completed }) => {
     const choice = await confirm()
 
     if (choice) {
-      fetch('http://localhost:3001/tasks/' + id, {
-        method: 'DELETE',
-      }).catch(() => {
+      removeTask(id).catch(() => {
         alert('Не удалось обновить задачу')
       })
     }

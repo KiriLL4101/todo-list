@@ -5,12 +5,11 @@ import * as styles from './Modal.module.css'
 
 interface ModalProps {
   children: React.ReactNode
-  title?: string
   isOpen: boolean
   onClose: () => void
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, title, children, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) {
     return null
   }
@@ -19,7 +18,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, title, children, onClose }) => {
     <Portal>
       <div className={styles.overlay} onClick={onClose} />
       <div className={styles.modal}>
-        {title && <h2 className={styles.title}>{title}</h2>}
         {children}
       </div>
     </Portal>

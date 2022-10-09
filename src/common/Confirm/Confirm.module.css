@@ -1,3 +1,11 @@
+.title{
+    @apply ml-6 mt-3
+}
+
+.wrapper{
+    @apply w-[400px] flex flex-col gap-y-4
+}
+
 .footer{
     @apply flex justify-end gap-2
 }

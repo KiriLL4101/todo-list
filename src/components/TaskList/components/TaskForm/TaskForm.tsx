@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import useStore from '../../../../store/store.context'
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
 
@@ -7,28 +8,21 @@ import * as styles from './TaskForm.module.css'
 interface TaskFormProps {
   onClose: () => void
   listId: number
-  refresh: () => void
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose, refresh }) => {
+const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
   const [value, setValue] = useState<string>('')
 
+  const { createTask } = useStore()
+
   const addTask = () => {
-    if (value) {
-      const newTask = {
+    if (value.trim()) {
+      createTask({
         listId: listId,
         text: value,
         complited: false,
-      }
-      fetch('http://localhost:3001/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
       }).then(() => {
         onClose()
-        refresh()
       })
     }
   }

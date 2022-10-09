@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TaskList from './components/TaskList/TaskList'
 import FolderList from './components/FolderList/FolderList'
+import useStore from './store/store.context'
 
 export interface FolderItem {
   id: number
@@ -25,44 +26,23 @@ export interface Color {
 
 export const App: React.FC = () => {
   const [selectedFolder, setSelectedFolder] = useState<FolderItem[]>([])
-  const [folderLists, setFolderLists] = useState<FolderItem[]>([])
 
-  const getTasks = (folder: FolderItem[]) => {
-    setSelectedFolder(folder)
-  }
-
-  useEffect(() => {
-    refresh()
-  }, [])
-
-  const refresh = () => {
-    fetch('http://localhost:3001/lists?_expand=color&_embed=tasks')
-      .then(res => res.json())
-      .then(data => {
-        setFolderLists(data)
-        getTasks(data[0]?.id)
-      })
-  }
+  const { folders } = useStore()
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
       <main className="flex w-[800px] shadow-lg">
-        {folderLists.length > 0 && (
-          <FolderList
-            lists={folderLists}
-            getTasks={getTasks}
-            refresh={refresh}
-          />
+        {folders.length > 0 && (
+          <FolderList lists={folders} setSelectedFolder={setSelectedFolder} />
         )}
         <section className="p-14 w-full h-[650px] overflow-y-scroll">
-          {selectedFolder.length > 0 ? (
+          {selectedFolder.length > 0 && folders.length > 0 ? (
             selectedFolder.map(folder => (
               <TaskList
                 key={folder.id}
                 listId={folder.id}
                 title={folder.name}
                 tasks={folder.tasks}
-                refresh={refresh}
               />
             ))
           ) : (
