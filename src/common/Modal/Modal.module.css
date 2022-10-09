@@ -1,0 +1,11 @@
+.overlay{
+    @apply fixed inset-0 bg-black/50
+}
+
+.modal{
+    @apply p-3 rounded bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 z-[1]
+}
+
+.title{
+    @apply text-base w-[400px] p-2 mb-6
+}
