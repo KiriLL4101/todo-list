@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Checkbox from '../../../../common/Checkbox/Checkbox'
 import useConfirm from '../../../../common/Confirm/Confirm.context'
+import useToast from '../../../../common/Toaster/Toaster.context'
 import useStore from '../../../../store/store.context'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
@@ -19,12 +20,17 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, text, completed }) => {
 
   const confirm = useConfirm()
 
+  const toaste = useToast()
+
   const { completedTask, removeTask } = useStore()
 
   const onCompletedTodo = () => {
     setIsChecked(prev => !prev)
     completedTask(id, !isChecked).catch(() => {
-      alert('Не удалось обновить задачу')
+      toaste({
+        type: 'danger',
+        message: 'Не удалось обновить задачу',
+      })
     })
   }
 
@@ -33,7 +39,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, text, completed }) => {
 
     if (choice) {
       removeTask(id).catch(() => {
-        alert('Не удалось обновить задачу')
+        toaste({
+          type: 'danger',
+          message: 'Не удалось удалить задачу',
+        })
       })
     }
   }

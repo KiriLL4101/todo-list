@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useRef, useState } from "react"
-import Confirm from "./Confirm"
+import { createContext, useCallback, useContext, useRef, useState } from 'react'
+import Confirm from './Confirm'
 
 const ConfirmDialog = createContext(null)
 

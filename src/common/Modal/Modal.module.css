@@ -3,7 +3,7 @@
 }
 
 .modal{
-    @apply p-3 rounded bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 z-[1]
+    @apply p-3 rounded bg-white fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-36 z-[1]
 }
 
 .title{

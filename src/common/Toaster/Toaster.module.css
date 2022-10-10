@@ -1,0 +1,7 @@
+.wrapper{
+    @apply flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow absolute z-[1] top-4 right-4 cursor-pointer
+}
+
+.message {
+    @apply ml-3 text-sm font-normal text-black
+}

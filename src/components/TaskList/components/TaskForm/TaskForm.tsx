@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useStore from '../../../../store/store.context'
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
+import useToast from '../../../../common/Toaster/Toaster.context'
 
 import * as styles from './TaskForm.module.css'
 
@@ -15,6 +16,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
 
   const { createTask } = useStore()
 
+  const toaste = useToast()
+
   const addTask = () => {
     if (value.trim()) {
       createTask({
@@ -22,6 +25,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
         text: value,
         complited: false,
       }).then(() => {
+        toaste({ message: 'Задача создана' })
         onClose()
       })
     }
