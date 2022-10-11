@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import Badge from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
-import useConfirm from '../../common/Confirm/Confirm.context'
+import useConfirm from '../../package/Confirm/Confirm.context'
 import useStore from '../../store/store.context'
 import type { FolderItem } from '../../App'
 

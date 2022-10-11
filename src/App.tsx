@@ -43,6 +43,7 @@ export const App: React.FC = () => {
                 listId={folder.id}
                 title={folder.name}
                 tasks={folder.tasks}
+                color={folder.color}
               />
             ))
           ) : (

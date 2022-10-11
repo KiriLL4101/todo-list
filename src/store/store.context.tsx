@@ -24,6 +24,7 @@ interface Store {
   }) => Promise<any>
   completedTask: (id: number, isChecked: boolean) => Promise<any>
   removeTask: (id: number) => Promise<any>
+  editTitleFolder: (id: number, name: string) => Promise<any>
 }
 
 const Store = createContext<Store>(null)
@@ -75,7 +76,7 @@ export function StoreProvider({ children }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newTask),
-    })
+    }).then(() => requestFolderList())
   }
 
   const completedTask = (id: number, isChecked: boolean) => {
@@ -93,7 +94,19 @@ export function StoreProvider({ children }) {
   const removeTask = (id: number) => {
     return fetch('http://localhost:3001/tasks/' + id, {
       method: 'DELETE',
-    })
+    }).then(() => requestFolderList())
+  }
+
+  const editTitleFolder = (id: number, name: string) => {
+    return fetch('http://localhost:3001/lists/' + id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    }).then(() => requestFolderList())
   }
 
   return (
@@ -107,6 +120,7 @@ export function StoreProvider({ children }) {
         createTask,
         completedTask,
         removeTask,
+        editTitleFolder,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Checkbox from '../../../../common/Checkbox/Checkbox'
-import useConfirm from '../../../../common/Confirm/Confirm.context'
-import useToast from '../../../../common/Toaster/Toaster.context'
+import useConfirm from '../../../../package/Confirm/Confirm.context'
+import useToast from '../../../../package/Toaster/Toaster.context'
 import useStore from '../../../../store/store.context'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'

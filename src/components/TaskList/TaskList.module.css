@@ -7,7 +7,11 @@
 } 
 
 .title{
-    @apply text-3xl text-cyan-400 pb-5 border-solid border-slate-300 border-b-2 w-full flex items-center
+    @apply text-3xl pb-5 border-solid border-slate-300 border-b-2 w-full flex items-center
+}
+
+.title input{
+    @apply border-0 outline-0
 }
 
 .title:hover .edit {

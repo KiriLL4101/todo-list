@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import useStore from '../../../../store/store.context'
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
-import useToast from '../../../../common/Toaster/Toaster.context'
+import useToast from '../../../../package/Toaster/Toaster.context'
 
 import * as styles from './TaskForm.module.css'
 

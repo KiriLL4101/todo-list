@@ -4,28 +4,3 @@
   height: 10px;
   border-radius: 50%;
 }
-
-.badge--green {
-  background: #42b883;
-}
-.badge--blue {
-  background: #64c4ed;
-}
-.badge--pink {
-  background: #ffbbcc;
-}
-.badge--grey {
-  background: #c9d1d3;
-}
-.badge--lime {
-  background: #b6e6bd;
-}
-.badge--purple {
-  background: #c355f5;
-}
-.badge--black {
-  background: #110133;
-}
-.badge--red {
-  background: #ff6464;
-}

@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import * as styles from './Field.module.css'
 
-interface FieldProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+type FieldProps = React.InputHTMLAttributes<HTMLInputElement> &
+  React.RefAttributes<HTMLInputElement>
 
-const Field: React.FC<FieldProps> = ({...props}) => {
-  return (
-    <input {...props} className={styles.field} />
-  )
-}
+const Field: React.FC<FieldProps> = forwardRef(({ ...props }, ref) => {
+  return <input {...props} ref={ref} className={styles.field} />
+})
 
 export default Field
