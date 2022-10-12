@@ -5,26 +5,24 @@ import TaskForm from './components/TaskForm/TaskForm'
 import Field from '../../common/Field/Field'
 import useStore from '../../store/store.context'
 import useToast from '../../package/Toaster/Toaster.context'
-import type { Color, Task } from 'App'
+import { editTitleFolder } from '../../api/folderService'
+import type { FolderItem } from 'App'
 
 import EditIcon from 'icon:../../assets/img/edit.svg'
 import Plus from 'icon:../../assets/img/add.svg'
 
 import * as styles from './TaskList.module.css'
 
-interface TodoListProps {
-  tasks: Task[]
-  title?: string
-  listId: number
-  color: Color
-}
+type TodoListProps = FolderItem
 
-const TaskList: React.FC<TodoListProps> = ({ listId, title, tasks, color }) => {
+const TaskList: React.FC<TodoListProps> = props => {
+  const { id, name, tasks, color } = props
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEditable, setIsEditable] = useState<boolean>(false)
-  const [newTitle, setNewTitle] = useState<string>(title)
+  const [newTitle, setNewTitle] = useState<string>(name)
 
-  const { editTitleFolder } = useStore()
+  const { setFolders } = useStore()
 
   const toaster = useToast()
 
@@ -34,24 +32,32 @@ const TaskList: React.FC<TodoListProps> = ({ listId, title, tasks, color }) => {
 
   const onEditHandler = () => {
     setIsEditable(true)
-    setNewTitle(title)
+    setNewTitle(name)
   }
 
   const onBlurInput = () => {
     setIsEditable(false)
-    setNewTitle(title)
+    setNewTitle(name)
   }
 
   const onSubmitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.which === 13) {
       setIsEditable(false)
       if (newTitle) {
-        editTitleFolder(listId, newTitle).catch(() => {
-          toaster({
-            type: 'danger',
-            message: 'Не удалось обновить название списка',
+        editTitleFolder(id, newTitle)
+          .then(() => {
+            setFolders(prev =>
+              prev.map(folder =>
+                folder.id === id ? { ...folder, name: newTitle } : folder
+              )
+            )
           })
-        })
+          .catch(() => {
+            toaster({
+              type: 'danger',
+              message: 'Не удалось обновить название списка',
+            })
+          })
       }
     }
   }
@@ -62,7 +68,7 @@ const TaskList: React.FC<TodoListProps> = ({ listId, title, tasks, color }) => {
 
   return (
     <div className={'mb-5'}>
-      {title && (
+      {name && (
         <h1 className={styles.title} style={{ color: color.hex }}>
           {isEditable ? (
             <Field
@@ -85,7 +91,7 @@ const TaskList: React.FC<TodoListProps> = ({ listId, title, tasks, color }) => {
       </ul>
 
       {isOpen ? (
-        <TaskForm onClose={onCloseHandler} listId={listId} />
+        <TaskForm onClose={onCloseHandler} listId={id} />
       ) : (
         <button className={styles.addTaskBtn} onClick={() => setIsOpen(true)}>
           <Plus />

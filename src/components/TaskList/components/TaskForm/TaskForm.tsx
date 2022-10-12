@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import useStore from '../../../../store/store.context'
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
+import { createTask } from '../../../../api/taskService'
 import useToast from '../../../../package/Toaster/Toaster.context'
+import useStore from '../../../../store/store.context'
 
 import * as styles from './TaskForm.module.css'
 
@@ -14,17 +15,31 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
   const [value, setValue] = useState<string>('')
 
-  const { createTask } = useStore()
+  const { setFolders, setSelectedFolder } = useStore()
 
   const toaste = useToast()
+
+  const addNewTask = (folders, data) => {
+    return folders.map(folder => {
+      if (folder.id === listId) {
+        return {
+          ...folder,
+          tasks: [...folder.tasks, data],
+        }
+      }
+      return folder
+    })
+  }
 
   const addTask = () => {
     if (value.trim()) {
       createTask({
         listId: listId,
         text: value,
-        complited: false,
-      }).then(() => {
+        completed: false,
+      }).then(data => {
+        setFolders(prev => addNewTask(prev, data))
+        setSelectedFolder(prev => addNewTask(prev, data))
         toaste({ message: 'Задача создана' })
         onClose()
       })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TaskList from './components/TaskList/TaskList'
 import FolderList from './components/FolderList/FolderList'
 import useStore from './store/store.context'
@@ -25,26 +25,16 @@ export interface Color {
 }
 
 export const App: React.FC = () => {
-  const [selectedFolder, setSelectedFolder] = useState<FolderItem[]>([])
-
-  const { folders } = useStore()
+  const { folders, selectedFolder } = useStore()
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
       <main className="flex w-[800px] shadow-lg">
-        {folders.length > 0 && (
-          <FolderList lists={folders} setSelectedFolder={setSelectedFolder} />
-        )}
+        <FolderList />
         <section className="p-14 w-full h-[650px] overflow-y-scroll">
           {selectedFolder.length > 0 && folders.length > 0 ? (
             selectedFolder.map(folder => (
-              <TaskList
-                key={folder.id}
-                listId={folder.id}
-                title={folder.name}
-                tasks={folder.tasks}
-                color={folder.color}
-              />
+              <TaskList key={folder.id} {...folder} />
             ))
           ) : (
             <div>Задачи отсутствуют</div>

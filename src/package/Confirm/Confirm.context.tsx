@@ -1,15 +1,25 @@
-import { createContext, useCallback, useContext, useRef, useState } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react'
 import Confirm from './Confirm'
 
-const ConfirmDialog = createContext(null)
+type ConfirmDialogContext = (
+  data?: Partial<React.ComponentProps<typeof Confirm>>
+) => Promise<boolean>
+
+const ConfirmDialog = createContext<ConfirmDialogContext>(undefined)
 
 export function ConfirmDialogProvider({ children }) {
   const [state, setState] = useState({ isOpen: false })
   const fn = useRef(null)
 
   const confirm = useCallback(
-    data => {
-      return new Promise(resolve => {
+    (data?: Partial<React.ComponentProps<typeof Confirm>>) => {
+      return new Promise<boolean>(resolve => {
         setState({ ...data, isOpen: true })
 
         fn.current = choice => {

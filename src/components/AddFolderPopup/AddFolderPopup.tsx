@@ -5,6 +5,9 @@ import Badge from '../../common/Badge/Badge'
 import Field from '../../common/Field/Field'
 import Button from '../../common/Button/Button'
 import useStore from '../../store/store.context'
+import { createNewFolder, requestFolderList } from '../../api/folderService'
+import { requestColorList } from '../../api/colorService'
+import useToast from '../../package/Toaster/Toaster.context'
 import type { Color } from 'App'
 
 import CloseIcon from 'icon:../../assets/img/close.svg'
@@ -22,12 +25,21 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
   )
   const [nameFolder, setNameFolder] = useState<string>('')
 
-  const { requestColorList, createNewFolder } = useStore()
+  const toaster = useToast()
+
+  const { setFolders } = useStore()
 
   useEffect(() => {
-    requestColorList().then(data => {
-      setColors(data)
-    })
+    requestColorList()
+      .then(data => {
+        setColors(data)
+      })
+      .catch(() => {
+        toaster({
+          type: 'danger',
+          message: 'Ошибка загрузки цветов',
+        })
+      })
   }, [])
 
   const onChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,15 +50,26 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
     setSelectedColorId(id)
   }
 
-  const addFolder = () => {
-    if (!nameFolder || !selectedColorId) {
-      alert('Введите название списка')
-      return
-    }
+  const addFolder = async () => {
+    if (nameFolder && selectedColorId) {
+      const newFolder = await createNewFolder({
+        name: nameFolder,
+        colorId: selectedColorId,
+      }).catch(() => {
+        toaster({
+          type: 'danger',
+          message: 'Ошибка создания папки',
+        })
+      })
 
-    createNewFolder({ name: nameFolder, colorId: selectedColorId }).then(() => {
-      onClose()
-    })
+      if (newFolder) {
+        await requestFolderList()
+          .then(data => {
+            setFolders(data)
+            onClose()
+          })
+      }
+    }
   }
 
   return (

@@ -1,7 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import Toaster, { ToasterProps } from './Toaster'
 
-const ToasterContext = createContext(undefined)
+type ToasterContextData = (data: Partial<ToasterProps>) => void
+
+const ToasterContext = createContext<ToasterContextData>(undefined)
 
 export function ToasterProvider({ children }) {
   const [state, setState] = useState<ToasterProps>({ isOpen: false })
@@ -14,7 +16,7 @@ export function ToasterProvider({ children }) {
     }, 5000)
   }, [state.isOpen])
 
-  const toaste = data => {
+  const toaste = (data: Partial<ToasterProps>) => {
     setState({ ...data, onClose: onCloseHandler, isOpen: true })
   }
 

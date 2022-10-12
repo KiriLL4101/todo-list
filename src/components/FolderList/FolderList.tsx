@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 
 import Badge from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
 import useConfirm from '../../package/Confirm/Confirm.context'
+import useToast from '../../package/Toaster/Toaster.context'
 import useStore from '../../store/store.context'
+import { removeFolder } from '../../api/folderService'
 import type { FolderItem } from '../../App'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
@@ -13,25 +15,15 @@ import Plus from 'icon:../../assets/img/add.svg'
 
 import * as styles from './FolderList.module.css'
 
-interface FolderListProps {
-  lists: FolderItem[]
-  setSelectedFolder: React.Dispatch<React.SetStateAction<FolderItem[]>>
-}
+const FolderList: React.FC = () => {
+  const { folders, setFolders, setSelectedFolder } = useStore()
 
-const FolderList: React.FC<FolderListProps> = ({
-  lists,
-  setSelectedFolder,
-}) => {
-  const [activeId, setActiveId] = useState<FolderItem['id']>(lists[0]?.id || 0)
+  const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const confirm = useConfirm()
 
-  useEffect(() => {
-    setSelectedFolder([lists[0]])
-  }, [])
-
-  const { removeFolderById } = useStore()
+  const toaster = useToast()
 
   const onClickFolder = (folder: FolderItem[]) => {
     setSelectedFolder(folder)
@@ -46,7 +38,18 @@ const FolderList: React.FC<FolderListProps> = ({
     const choice = await confirm()
 
     if (choice) {
-      removeFolderById(id)
+      removeFolder(id)
+        .then(() => {
+          setFolders(prev => prev.filter(folder => folder.id !== id))
+          setSelectedFolder([folders[0]])
+          setActiveId(0)
+        })
+        .catch(() => {
+          toaster({
+            type: 'danger',
+            message: 'Не удалось удалить папку',
+          })
+        })
     }
   }
 
@@ -56,14 +59,14 @@ const FolderList: React.FC<FolderListProps> = ({
         className={classNames(styles.folderItem, styles.allFolders, {
           [styles.activeItem]: activeId === 0,
         })}
-        onClick={() => onClickFolder(lists)}
+        onClick={() => onClickFolder(folders)}
       >
         <ListIcon />
         Все задачи
       </button>
       <div className="flex flex-col gap-y-1.5 mb-12">
-        {lists &&
-          lists.map(folder => {
+        {folders &&
+          folders.map(folder => {
             return (
               <button
                 key={folder.id}
@@ -72,7 +75,7 @@ const FolderList: React.FC<FolderListProps> = ({
                 })}
                 onClick={() => onClickFolder([folder])}
               >
-                <Badge color={folder.color.name} />
+                <Badge color={folder?.color.name} />
                 <span className="grow truncate text-start">{folder.name}</span>
                 <RemoveIcon
                   className={styles.removeIcon}
