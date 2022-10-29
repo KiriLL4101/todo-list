@@ -8,6 +8,7 @@
     "dev": "parcel",
     "build": "parcel build",
     "check": "tsc --noEmit",
+    "lint": "eslint --debug src/index.tsx",
     "server": "node server.js",
     "json": "json-server src/assets/db.json --watch --port 3001"
   },
@@ -22,11 +23,25 @@
     "@parcel/transformer-svg-react": "^2.7.0",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
-    "fdk-eslint-config": "^1.0.0",
+    "@kfedechkin/fdk-eslint-config": "1.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "parcel": "^2.7.0",
     "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
     "process": "^0.11.10",
     "tailwindcss": "^3.1.8",
-    "typescript": "^4.8.2"
+    "typescript": "4.8.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('fdk-eslint-config/prettierrc.js'),
+  ...require('@kfedechkin/fdk-eslint-config/prettierrc.js'),
 }

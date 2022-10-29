@@ -1,4 +1,3 @@
-import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
 import { ConfirmDialogProvider } from './package/Confirm/Confirm.context'
 import { ToasterProvider } from './package/Toaster/Toaster.context'

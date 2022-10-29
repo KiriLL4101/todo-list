@@ -1,3 +1,3 @@
 module.exports = {
-  extends: 'fdk-eslint-config',
+  extends: '@kfedechkin/fdk-eslint-config',
 }
