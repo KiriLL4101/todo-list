@@ -63,11 +63,10 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
       })
 
       if (newFolder) {
-        await requestFolderList()
-          .then(data => {
-            setFolders(data)
-            onClose()
-          })
+        await requestFolderList().then(data => {
+          setFolders(data)
+          onClose()
+        })
       }
     }
   }

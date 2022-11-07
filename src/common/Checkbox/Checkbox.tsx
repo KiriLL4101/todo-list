@@ -9,10 +9,15 @@ interface CheckboxProps {
   onClick: () => void
 }
 
-const Checkbox:React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
   return (
-    <div className={classNames(styles.checkbox, {[styles.checkboxActive]: isChecked})} onClick={onClick}>
-        <CheckIcon className={styles.check}/>
+    <div
+      className={classNames(styles.checkbox, {
+        [styles.checkboxActive]: isChecked,
+      })}
+      onClick={onClick}
+    >
+      <CheckIcon className={styles.check} />
     </div>
   )
 }

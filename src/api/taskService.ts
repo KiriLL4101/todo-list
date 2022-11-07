@@ -11,7 +11,11 @@ interface taskItem {
   id: number
 }
 
-const createTask = ({ listId, text, completed }: newTask): Promise<taskItem> => {
+const createTask = ({
+  listId,
+  text,
+  completed,
+}: newTask): Promise<taskItem> => {
   return fetch('http://localhost:3001/tasks', {
     method: 'POST',
     headers: {

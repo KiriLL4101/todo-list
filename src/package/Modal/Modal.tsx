@@ -17,9 +17,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <Portal>
       <div className={styles.overlay} onClick={onClose} />
-      <div className={styles.modal}>
-        {children}
-      </div>
+      <div className={styles.modal}>{children}</div>
     </Portal>
   )
 }
