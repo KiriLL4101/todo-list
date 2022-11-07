@@ -16,7 +16,7 @@ const createTask = ({
   text,
   completed,
 }: newTask): Promise<taskItem> => {
-  return fetch('http://localhost:3001/tasks', {
+  return fetch('/api/tasks', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const createTask = ({
 }
 
 const completedTask = (id: number, isChecked: boolean): Promise<taskItem> => {
-  return fetch('http://localhost:3001/tasks/' + id, {
+  return fetch('/api/tasks/' + id, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const completedTask = (id: number, isChecked: boolean): Promise<taskItem> => {
 }
 
 const removeTask = (id: number): Promise<unknown> => {
-  return fetch('http://localhost:3001/tasks/' + id, {
+  return fetch('/api/tasks/' + id, {
     method: 'DELETE',
   }).then(res => res.json())
 }

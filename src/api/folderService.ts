@@ -1,13 +1,11 @@
 import type { FolderItem } from 'App'
 
 const requestFolderList = (): Promise<FolderItem[]> => {
-  return fetch('http://localhost:3001/lists?_expand=color&_embed=tasks').then(
-    res => res.json()
-  )
+  return fetch('/api/lists?_expand=color&_embed=tasks').then(res => res.json())
 }
 
 const removeFolder = (id: number): Promise<unknown> => {
-  return fetch('http://localhost:3001/lists/' + id, {
+  return fetch('/api/lists/' + id, {
     method: 'DELETE',
   }).then(res => res.json())
 }
@@ -19,7 +17,7 @@ const createNewFolder = ({
   name: string
   colorId: number
 }): Promise<{ name: string; colorId: number; id: number }> => {
-  return fetch('http://localhost:3001/lists', {
+  return fetch('/api/lists', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +30,7 @@ const createNewFolder = ({
 }
 
 const editTitleFolder = (id: number, name: string) => {
-  return fetch('http://localhost:3001/lists/' + id, {
+  return fetch('/api/lists/' + id, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

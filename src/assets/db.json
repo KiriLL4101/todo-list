@@ -24,6 +24,11 @@
       "name": "Folder",
       "colorId": 2,
       "id": 8
+    },
+    {
+      "name": "new task",
+      "colorId": 7,
+      "id": 9
     }
   ],
   "tasks": [

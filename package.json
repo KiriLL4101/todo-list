@@ -5,11 +5,10 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel",
+    "dev": "parcel src/index.html",
     "build": "parcel build",
     "lint": "eslint --debug src/index.tsx",
-    "server": "node server.js",
-    "json": "json-server src/assets/db.json --watch --port 3001"
+    "server": "node server.js"
   },
   "proxy": "http://localhost:3001",
   "dependencies": {

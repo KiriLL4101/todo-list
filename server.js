@@ -7,6 +7,18 @@ const middlewares = jsonServer.defaults({
 
 const PORT = process.env.PORT || 3001
 
+server.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', '*')
+  next()
+})
+
+server.use(
+  jsonServer.rewriter({
+    '/api/*': '/$1',
+  })
+)
+
 server.use(middlewares)
 server.use(router)
 
