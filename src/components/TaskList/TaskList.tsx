@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-import TaskItem from './components/TaskItem/TaskItem'
-import TaskForm from './components/TaskForm/TaskForm'
+import type { FolderItem } from 'components/App'
 import Field from '../../common/Field/Field'
 import useStore from '../../store/store.context'
 import useToast from '../../package/Toaster/Toaster.context'
 import { editTitleFolder } from '../../api/folderService'
-import type { FolderItem } from 'App'
+import TaskForm from './components/TaskForm/TaskForm'
+import TaskItem from './components/TaskItem/TaskItem'
 
 import EditIcon from 'icon:../../assets/img/edit.svg'
 import Plus from 'icon:../../assets/img/add.svg'
@@ -15,9 +15,7 @@ import * as styles from './TaskList.module.css'
 
 type TodoListProps = FolderItem
 
-const TaskList: React.FC<TodoListProps> = props => {
-  const { id, name, tasks, color } = props
-
+const TaskList: React.FC<TodoListProps> = ({ id, name }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [newTitle, setNewTitle] = useState<string>(name)

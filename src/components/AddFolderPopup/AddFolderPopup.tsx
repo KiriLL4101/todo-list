@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 
 import Badge from '../../common/Badge/Badge'
@@ -6,9 +6,8 @@ import Field from '../../common/Field/Field'
 import Button from '../../common/Button/Button'
 import useStore from '../../store/store.context'
 import { createNewFolder, requestFolderList } from '../../api/folderService'
-import { requestColorList } from '../../api/colorService'
 import useToast from '../../package/Toaster/Toaster.context'
-import type { Color } from 'App'
+import type { Color } from '../App'
 
 import CloseIcon from 'icon:../../assets/img/close.svg'
 
@@ -19,28 +18,13 @@ interface AddFolderPopupProps {
 }
 
 const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
-  const [colors, setColors] = useState<Color[]>([])
+  const { colors, setFolders } = useStore()
   const [selectedColorId, setSelectedColorId] = useState<Color['id']>(
     colors[0]?.id
   )
   const [nameFolder, setNameFolder] = useState<string>('')
 
   const toaster = useToast()
-
-  const { setFolders } = useStore()
-
-  useEffect(() => {
-    requestColorList()
-      .then(data => {
-        setColors(data)
-      })
-      .catch(() => {
-        toaster({
-          type: 'danger',
-          message: 'Ошибка загрузки цветов',
-        })
-      })
-  }, [])
 
   const onChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameFolder(e.target.value)
@@ -75,8 +59,8 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
     <div className={styles.popup}>
       <CloseIcon className={styles.close} onClick={() => onClose()} />
       <Field
-        type="text"
-        placeholder="Название папки"
+        type={'text'}
+        placeholder={'Название папки'}
         onChange={onChangeField}
         value={nameFolder}
       />

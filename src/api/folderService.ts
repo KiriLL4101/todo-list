@@ -1,7 +1,7 @@
-import type { FolderItem } from 'App'
+import type { FolderItem } from '../components/App'
 
 const requestFolderList = (): Promise<FolderItem[]> => {
-  return fetch('/api/lists?_expand=color&_embed=tasks').then(res => res.json())
+  return fetch('/api/lists').then(res => res.json())
 }
 
 const removeFolder = (id: number): Promise<unknown> => {

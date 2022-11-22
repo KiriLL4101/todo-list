@@ -10,10 +10,8 @@
     "lint": "eslint --debug src/index.tsx",
     "server": "node server.js"
   },
-  "proxy": "http://localhost:3001",
   "dependencies": {
     "classnames": "^2.3.1",
-    "json-server": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

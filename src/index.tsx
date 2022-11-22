@@ -1,12 +1,13 @@
+import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
 import { ConfirmDialogProvider } from './package/Confirm/Confirm.context'
-import { ToasterProvider } from './package/Toaster/Toaster.context'
+import { ToasterProvider } from './package/Toaster'
 import { StoreProvider } from './store/store.context'
 
-import { App } from './App'
+import { App } from './components/App'
 
 const rootElement = document.getElementById('root')
-const root = ReactDOMClient.createRoot(rootElement!)
+const root = ReactDOMClient.createRoot(rootElement)
 
 root.render(
   <StoreProvider>

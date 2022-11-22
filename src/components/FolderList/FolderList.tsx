@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
+import { requestColorList } from '../../api/colorService'
 import Badge from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
 import useConfirm from '../../package/Confirm/Confirm.context'
 import useToast from '../../package/Toaster/Toaster.context'
 import useStore from '../../store/store.context'
 import { removeFolder } from '../../api/folderService'
-import type { FolderItem } from '../../App'
+import type { Color, FolderItem } from '../App'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
 import RemoveIcon from 'icon:../../assets/img/remove.svg'
@@ -16,7 +17,7 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 const FolderList: React.FC = () => {
-  const { folders, setFolders, setSelectedFolder } = useStore()
+  const { folders, colors, setFolders, setSelectedFolder } = useStore()
 
   const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -64,9 +65,13 @@ const FolderList: React.FC = () => {
         <ListIcon />
         Все задачи
       </button>
-      <div className="flex flex-col gap-y-1.5 mb-12">
+      <div className={'flex flex-col gap-y-1.5 mb-12'}>
         {folders &&
           folders.map(folder => {
+            const colorName = colors.filter(
+              ({ id }) => id === folder.colorId
+            )[0].name
+
             return (
               <button
                 key={folder.id}
@@ -75,8 +80,10 @@ const FolderList: React.FC = () => {
                 })}
                 onClick={() => onClickFolder([folder])}
               >
-                <Badge color={folder?.color.name} />
-                <span className="grow truncate text-start">{folder.name}</span>
+                <Badge color={colorName} />
+                <span className={'grow truncate text-start'}>
+                  {folder.name}
+                </span>
                 <RemoveIcon
                   className={styles.removeIcon}
                   onClick={() => onRemoveFolder(folder.id)}

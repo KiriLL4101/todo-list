@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+
 import Checkbox from '../../../../common/Checkbox/Checkbox'
 import useConfirm from '../../../../package/Confirm/Confirm.context'
 import useToast from '../../../../package/Toaster/Toaster.context'
 import useStore from '../../../../store/store.context'
 import { completedTask, removeTask } from '../../../../api/taskService'
-import type { FolderItem } from 'App'
+import type { FolderItem } from '../../../App'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
 
@@ -24,12 +25,13 @@ const TaskItem: React.FC<TaskItemProps> = props => {
 
   const confirm = useConfirm()
 
-  const toaste = useToast()
+  const toaster = useToast()
 
   const { setFolders, setSelectedFolder } = useStore()
 
   const onCompletedTodo = () => {
     setIsChecked(prev => !prev)
+
     completedTask(id, !isChecked)
       .then(data => {
         const { listId } = data
@@ -42,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
         )
       })
       .catch(() => {
-        toaste({
+        toaster({
           type: 'danger',
           message: 'Не удалось обновить задачу',
         })
@@ -70,7 +72,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
           setSelectedFolder(removeTaskFromList)
         })
         .catch(() => {
-          toaste({
+          toaster({
             type: 'danger',
             message: 'Не удалось удалить задачу',
           })
