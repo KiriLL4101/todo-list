@@ -7,6 +7,8 @@ export interface FolderItem {
   id: number
   colorId: number
   name: string
+  color?: Color
+  tasks?: Task[]
 }
 
 export interface Task {

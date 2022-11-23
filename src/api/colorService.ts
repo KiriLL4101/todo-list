@@ -1,7 +1,7 @@
 import type { Color } from 'components/App'
 
 const requestColorList = (): Promise<Color[]> => {
-  return fetch('/api/colors').then(res => res.json())
+  return fetch(process.env.API_URL + '/colors').then(res => res.json())
 }
 
 export { requestColorList }

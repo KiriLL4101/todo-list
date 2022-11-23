@@ -15,7 +15,9 @@ import * as styles from './TaskList.module.css'
 
 type TodoListProps = FolderItem
 
-const TaskList: React.FC<TodoListProps> = ({ id, name }) => {
+const TaskList: React.FC<TodoListProps> = props => {
+  const { id, name, tasks, color } = props
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [newTitle, setNewTitle] = useState<string>(name)

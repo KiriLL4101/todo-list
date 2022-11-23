@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
 import { createTask } from '../../../../api/taskService'
@@ -17,7 +18,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
 
   const { setFolders, setSelectedFolder } = useStore()
 
-  const toaste = useToast()
+  const toaster = useToast()
 
   const addNewTask = (folders, data) => {
     return folders.map(folder => {
@@ -39,8 +40,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
         completed: false,
       }).then(data => {
         setFolders(prev => addNewTask(prev, data))
+
         setSelectedFolder(prev => addNewTask(prev, data))
-        toaste({ message: 'Задача создана' })
+
+        toaster({ message: 'Задача создана' })
+
         onClose()
       })
     }

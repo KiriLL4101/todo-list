@@ -70,6 +70,9 @@ const TaskItem: React.FC<TaskItemProps> = props => {
         .then(() => {
           setFolders(removeTaskFromList)
           setSelectedFolder(removeTaskFromList)
+          toaster({
+            message: 'Задача успешно удалена',
+          })
         })
         .catch(() => {
           toaster({

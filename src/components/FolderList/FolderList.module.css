@@ -26,3 +26,11 @@
     @apply w-full flex gap-x-[10px] items-center opacity-50 duration-300 hover:opacity-100 
 }
 
+.wrapper{
+    @apply flex flex-col gap-y-1.5 mb-12
+}
+
+.name {
+    @apply grow truncate text-start
+}
+
