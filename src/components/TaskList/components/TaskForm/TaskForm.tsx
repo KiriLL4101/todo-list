@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import Button from '../../../../common/Button/Button'
 import Field from '../../../../common/Field/Field'
-import { createTask } from '../../../../api/taskService'
 import useToast from '../../../../package/Toaster/Toaster.context'
 import useStore from '../../../../store/store.context'
+import { createTask } from '../../../../api/taskService'
 
 import * as styles from './TaskForm.module.css'
 

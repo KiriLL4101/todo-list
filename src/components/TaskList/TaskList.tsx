@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 
-import type { FolderItem } from 'components/App'
 import Field from '../../common/Field/Field'
 import useStore from '../../store/store.context'
 import useToast from '../../package/Toaster/Toaster.context'
-import { editTitleFolder } from '../../api/folderService'
 import TaskForm from './components/TaskForm/TaskForm'
 import TaskItem from './components/TaskItem/TaskItem'
+import { editTitleFolder } from '../../api/folderService'
+
+import type { FolderItem } from '../App'
 
 import EditIcon from 'icon:../../assets/img/edit.svg'
 import Plus from 'icon:../../assets/img/add.svg'

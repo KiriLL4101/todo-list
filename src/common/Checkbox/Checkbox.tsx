@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+
 import CheckIcon from 'icon:../../assets/img/check.svg'
 
 import * as styles from './Checkbox.module.css'

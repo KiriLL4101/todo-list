@@ -1,4 +1,4 @@
-import type { FolderItem } from '../components/App'
+import type { FolderItem } from 'components/App'
 
 const requestFolderList = (): Promise<FolderItem[]> => {
   return fetch(process.env.API_URL + '/lists?_expand=color&_embed=tasks').then(

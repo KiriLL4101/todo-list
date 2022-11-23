@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+
 import Confirm from './Confirm'
 
 type ConfirmDialogContext = (
