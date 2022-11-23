@@ -23,11 +23,11 @@ const TaskItem: React.FC<TaskItemProps> = props => {
 
   const [isChecked, setIsChecked] = useState<boolean>(completed)
 
+  const { actions } = useStore()
+
   const confirm = useConfirm()
 
   const toaster = useToast()
-
-  const { setFolders, setSelectedFolder } = useStore()
 
   const onCompletedTodo = () => {
     setIsChecked(prev => !prev)
@@ -35,13 +35,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
     completedTask(id, !isChecked)
       .then(data => {
         const { listId } = data
-        setFolders(prev =>
-          prev.map(folder =>
-            folder.id === listId
-              ? { ...folder, tasks: [...folder.tasks, data] }
-              : folder
-          )
-        )
+        actions.onCompletedTask(listId, data)
       })
       .catch(() => {
         toaster({
@@ -51,25 +45,13 @@ const TaskItem: React.FC<TaskItemProps> = props => {
       })
   }
 
-  const removeTaskFromList = (value: FolderItem[]) =>
-    value.map(folder => {
-      if (folder.id === listId) {
-        return {
-          ...folder,
-          tasks: [...folder.tasks.filter(task => task.id !== id)],
-        }
-      }
-      return folder
-    })
-
   const onRemoveHandler = async () => {
     const choice = await confirm()
 
     if (choice) {
       removeTask(id)
         .then(() => {
-          setFolders(removeTaskFromList)
-          setSelectedFolder(removeTaskFromList)
+          actions.onRemoveTask(listId, id)
           toaster({
             message: 'Задача успешно удалена',
           })
@@ -81,7 +63,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
           })
         })
     }
-  }
+  }  
 
   return (
     <li className={styles.item}>

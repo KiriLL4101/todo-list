@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import Badge from '../../common/Badge/Badge'
@@ -7,7 +7,6 @@ import useConfirm from '../../package/Confirm/Confirm.context'
 import useToast from '../../package/Toaster/Toaster.context'
 import useStore from '../../store/store.context'
 import { removeFolder } from '../../api/folderService'
-import type { FolderItem } from '../App'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
 import RemoveIcon from 'icon:../../assets/img/remove.svg'
@@ -16,7 +15,7 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 const FolderList: React.FC = () => {
-  const { folders, setFolders, setSelectedFolder } = useStore()
+  const { folders, selectedFolder, actions } = useStore()
 
   const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -25,24 +24,32 @@ const FolderList: React.FC = () => {
 
   const toaster = useToast()
 
+  useEffect(() => {
+    if (selectedFolder.length > 1) {
+      setActiveId(0)
+    } else {
+      setActiveId(selectedFolder[0]?.id || 0)
+    }
+  }, [selectedFolder])
+
   const onClickFolder = (folder: FolderItem[]) => {
-    setSelectedFolder(folder)
-    setActiveId(folder.length <= 1 ? folder[0].id : 0)
+    actions.onSelectFolder(folder)
   }
 
   const onCloseHandler = () => {
     setIsOpen(false)
   }
 
-  const onRemoveFolder = async (id: FolderItem['id']) => {
+  const onRemoveFolderHandler = async (id: FolderItem['id']) => {
     const choice = await confirm()
 
     if (choice) {
       removeFolder(id)
         .then(() => {
-          setFolders(prev => prev.filter(folder => folder.id !== id))
-          setSelectedFolder(folders)
-          setActiveId(0)
+          actions.onRemoveFolder(id)
+
+          actions.onSelectFolder([folders[0]])
+
           toaster({
             message: 'Задача успешно удалена',
           })
@@ -78,11 +85,11 @@ const FolderList: React.FC = () => {
                 })}
                 onClick={() => onClickFolder([folder])}
               >
-                <Badge color={folder?.color.name} />
+                {folder?.color && <Badge color={folder?.color.name} />}
                 <span className={styles.name}>{folder.name}</span>
                 <RemoveIcon
                   className={styles.removeIcon}
-                  onClick={() => onRemoveFolder(folder.id)}
+                  onClick={() => onRemoveFolderHandler(folder.id)}
                 />
               </button>
             )

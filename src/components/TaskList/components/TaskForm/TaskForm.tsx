@@ -16,21 +16,7 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
   const [value, setValue] = useState<string>('')
 
-  const { setFolders, setSelectedFolder } = useStore()
-
-  const toaster = useToast()
-
-  const addNewTask = (folders, data) => {
-    return folders.map(folder => {
-      if (folder.id === listId) {
-        return {
-          ...folder,
-          tasks: [...folder.tasks, data],
-        }
-      }
-      return folder
-    })
-  }
+  const { actions } = useStore()
 
   const addTask = () => {
     if (value.trim()) {
@@ -39,11 +25,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
         text: value,
         completed: false,
       }).then(data => {
-        setFolders(prev => addNewTask(prev, data))
+        const { listId } = data
 
-        setSelectedFolder(prev => addNewTask(prev, data))
-
-        toaster({ message: 'Задача создана' })
+        actions.onAddNewTask(listId, data)
 
         onClose()
       })

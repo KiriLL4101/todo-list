@@ -1,10 +1,10 @@
-interface newTask {
+interface NewTask {
   listId: number
   text: string
   completed: boolean
 }
 
-interface taskItem {
+interface TaskItem {
   listId: number
   text: string
   completed: boolean
@@ -15,7 +15,7 @@ const createTask = ({
   listId,
   text,
   completed,
-}: newTask): Promise<taskItem> => {
+}: NewTask): Promise<TaskItem> => {
   return fetch(process.env.API_URL + '/tasks', {
     method: 'POST',
     headers: {
@@ -29,7 +29,7 @@ const createTask = ({
   }).then(res => res.json())
 }
 
-const completedTask = (id: number, isChecked: boolean): Promise<taskItem> => {
+const completedTask = (id: number, isChecked: boolean): Promise<TaskItem> => {
   return fetch(process.env.API_URL + '/tasks/' + id, {
     method: 'PATCH',
     headers: {

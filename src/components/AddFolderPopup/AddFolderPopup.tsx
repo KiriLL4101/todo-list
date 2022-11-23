@@ -6,9 +6,8 @@ import Badge from '../../common/Badge/Badge'
 import Field from '../../common/Field/Field'
 import Button from '../../common/Button/Button'
 import useStore from '../../store/store.context'
-import { createNewFolder, requestFolderList } from '../../api/folderService'
+import { createNewFolder } from '../../api/folderService'
 import useToast from '../../package/Toaster/Toaster.context'
-import type { Color } from '../App'
 
 import CloseIcon from 'icon:../../assets/img/close.svg'
 
@@ -20,12 +19,10 @@ interface AddFolderPopupProps {
 
 const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
   const [colors, setColors] = useState<Color[]>([])
-  const [selectedColorId, setSelectedColorId] = useState<Color['id']>(
-    colors[0]?.id
-  )
+  const [selectedColorId, setSelectedColorId] = useState<Color['id']>(1)
   const [nameFolder, setNameFolder] = useState<string>('')
 
-  const { setFolders } = useStore()
+  const { actions } = useStore()
 
   const toaster = useToast()
 
@@ -50,25 +47,31 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
     setSelectedColorId(id)
   }
 
-  const addFolder = async () => {
-    if (nameFolder && selectedColorId) {
-      const newFolder = await createNewFolder({
-        name: nameFolder,
-        colorId: selectedColorId,
-      }).catch(() => {
+  const addFolder = () => {
+    if (!nameFolder && !selectedColorId) return
+
+    createNewFolder({
+      name: nameFolder,
+      colorId: selectedColorId,
+    })
+      .then(data => {
+        const color = colors.filter(v => v.id === data.colorId)[0]
+
+        actions.onAddNewFolder({ ...data, color })
+        actions.onSelectFolder([{ ...data, color }])
+
+        onClose()
+
+        toaster({
+          message: 'Папка успешно создана папки',
+        })
+      })
+      .catch(() => {
         toaster({
           type: 'danger',
           message: 'Ошибка создания папки',
         })
       })
-
-      if (newFolder) {
-        await requestFolderList().then(data => {
-          setFolders(data)
-          onClose()
-        })
-      }
-    }
   }
 
   return (

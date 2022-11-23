@@ -23,7 +23,7 @@ const TaskList: React.FC<TodoListProps> = props => {
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [newTitle, setNewTitle] = useState<string>(name)
 
-  const { setFolders } = useStore()
+  const { actions } = useStore()
 
   const toaster = useToast()
 
@@ -42,25 +42,19 @@ const TaskList: React.FC<TodoListProps> = props => {
   }
 
   const onSubmitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.which === 13) {
-      setIsEditable(false)
-      if (newTitle) {
-        editTitleFolder(id, newTitle)
-          .then(() => {
-            setFolders(prev =>
-              prev.map(folder =>
-                folder.id === id ? { ...folder, name: newTitle } : folder
-              )
-            )
-          })
-          .catch(() => {
-            toaster({
-              type: 'danger',
-              message: 'Не удалось обновить название списка',
-            })
-          })
-      }
-    }
+    if (e.which !== 13) return
+
+    editTitleFolder(id, newTitle)
+      .then(() => {
+        actions.onEditTitle(id, newTitle)
+        setIsEditable(false)
+      })
+      .catch(() => {
+        toaster({
+          type: 'danger',
+          message: 'Не удалось обновить название списка',
+        })
+      })
   }
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
