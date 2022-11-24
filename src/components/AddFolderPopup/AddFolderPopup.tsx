@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-import { requestColorList } from '../../api/colorService'
-import Badge from '../../common/Badge/Badge'
-import Field from '../../common/Field/Field'
-import Button from '../../common/Button/Button'
+import { Badge } from '../../common/Badge'
+import { Field } from '../../common/Field'
+import { Button } from '../../common/Button'
+import { useToast } from '../../common/Toaster'
 import useStore from '../../store/store.context'
 import { createNewFolder } from '../../api/folderService'
-import useToast from '../../package/Toaster/Toaster.context'
+import { requestColorList } from '../../api/colorService'
 
 import CloseIcon from 'icon:../../assets/img/close.svg'
 

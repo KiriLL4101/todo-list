@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-import Field from '../../common/Field/Field'
+import { Field } from '../../common/Field'
 import useStore from '../../store/store.context'
-import useToast from '../../package/Toaster/Toaster.context'
+import { useToast } from '../../common/Toaster'
 import TaskForm from './components/TaskForm/TaskForm'
 import TaskItem from './components/TaskItem/TaskItem'
 import { editTitleFolder } from '../../api/folderService'
@@ -82,7 +82,7 @@ const TaskList: React.FC<TodoListProps> = props => {
         </h1>
       )}
       <ul className={styles.list}>
-        {tasks && tasks.map(task => <TaskItem key={task.id} {...task} />)}
+        {tasks.length > 0 && tasks.map(task => <TaskItem key={task.id} {...task} />)}
       </ul>
 
       {isOpen ? (

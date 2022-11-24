@@ -3,8 +3,8 @@ import classNames from 'classnames'
 
 import Badge from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
-import useConfirm from '../../package/Confirm/Confirm.context'
-import useToast from '../../package/Toaster/Toaster.context'
+import useConfirm from '../../common/Confirm/Confirm.context'
+import useToast from '../../common/Toaster/Toaster.context'
 import useStore from '../../store/store.context'
 import { removeFolder } from '../../api/folderService'
 

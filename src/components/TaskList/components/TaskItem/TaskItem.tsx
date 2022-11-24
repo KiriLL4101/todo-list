@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
-import Checkbox from '../../../../common/Checkbox/Checkbox'
-import useConfirm from '../../../../package/Confirm/Confirm.context'
-import useToast from '../../../../package/Toaster/Toaster.context'
+import { Checkbox } from '../../../../common/Checkbox'
+import { useConfirm } from '../../../../common/Confirm'
+import { useToast } from '../../../../common/Toaster'
 import useStore from '../../../../store/store.context'
 import { completedTask, removeTask } from '../../../../api/taskService'
-import type { FolderItem } from '../../../App'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
 
@@ -63,7 +62,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
           })
         })
     }
-  }  
+  }
 
   return (
     <li className={styles.item}>

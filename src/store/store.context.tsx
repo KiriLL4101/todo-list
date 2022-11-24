@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { requestFolderList } from '../api/folderService'
 import type { FolderItem, Task } from '../components/App'
@@ -49,9 +43,12 @@ export function StoreProvider({ children }) {
     item.id === folderId
       ? {
           ...item,
-          tasks: [...item.tasks, task],
+          tasks: [...item?.tasks, task],
         }
       : item
+
+  const completedTask = (id: FolderItem['id'], task: Task) => item =>
+    item.id === id ? { ...item, tasks: item?.tasks.map(v => (v.id === task.id ? task : v)) } : item
 
   const actions = useMemo(
     () => ({
@@ -73,11 +70,8 @@ export function StoreProvider({ children }) {
       },
 
       onCompletedTask: (id: FolderItem['id'], task: Task) => {
-        setFolders(prev =>
-          prev.map(item =>
-            item.id === id ? { ...item, tasks: [...item.tasks, task] } : item
-          )
-        )
+        setFolders(prev => prev.map(completedTask(id, task)))
+        setSelectedFolder(prev => prev.map(completedTask(id, task)))
       },
 
       onRemoveTask: (folderId: FolderItem['id'], taskId: Task['id']) => {
@@ -93,11 +87,7 @@ export function StoreProvider({ children }) {
     [folders, selectedFolder]
   )
 
-  return (
-    <Store.Provider value={{ folders, selectedFolder, actions }}>
-      {children}
-    </Store.Provider>
-  )
+  return <Store.Provider value={{ folders, selectedFolder, actions }}>{children}</Store.Provider>
 }
 
 export default function useStore() {

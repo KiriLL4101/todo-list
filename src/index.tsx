@@ -1,7 +1,7 @@
 import React from 'react'
 import * as ReactDOMClient from 'react-dom/client'
-import { ConfirmDialogProvider } from './package/Confirm/Confirm.context'
-import { ToasterProvider } from './package/Toaster'
+import { ConfirmDialogProvider } from './common/Confirm'
+import { ToasterProvider } from './common/Toaster'
 import { StoreProvider } from './store/store.context'
 
 import { App } from './components/App'

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
-import Button from '../../../../common/Button/Button'
-import Field from '../../../../common/Field/Field'
-import useToast from '../../../../package/Toaster/Toaster.context'
+import { Button } from '../../../../common/Button'
+import { Field } from '../../../../common/Field'
 import useStore from '../../../../store/store.context'
 import { createTask } from '../../../../api/taskService'
 
@@ -19,7 +18,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
   const { actions } = useStore()
 
   const addTask = () => {
-    if (value.trim()) {
+    if (!value.trim()) return
+     
       createTask({
         listId: listId,
         text: value,
@@ -31,7 +31,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
 
         onClose()
       })
-    }
+    
   }
 
   return (
