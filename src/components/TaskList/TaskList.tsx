@@ -82,7 +82,7 @@ const TaskList: React.FC<TodoListProps> = props => {
         </h1>
       )}
       <ul className={styles.list}>
-        {tasks.length > 0 && tasks.map(task => <TaskItem key={task.id} {...task} />)}
+        {tasks?.length > 0 && tasks.map(task => <TaskItem key={task.id} {...task} />)}
       </ul>
 
       {isOpen ? (
