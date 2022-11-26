@@ -43,7 +43,7 @@ export function StoreProvider({ children }) {
     item.id === folderId
       ? {
           ...item,
-          tasks: [...item?.tasks, task],
+          tasks: item?.tasks ? [...item.tasks, task] : [task],
         }
       : item
 
