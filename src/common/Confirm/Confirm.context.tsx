@@ -1,25 +1,17 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react'
+import { createContext, useCallback, useContext, useRef, useState } from 'react'
 
-import Confirm from './Confirm'
+import Confirm, { ConfirmPopup } from './Confirm'
 
-type ConfirmDialogContext = (
-  data?: Partial<React.ComponentProps<typeof Confirm>>
-) => Promise<boolean>
+type ConfirmDialogContext = (data?: ConfirmPopup) => Promise<boolean>
 
-const ConfirmDialog = createContext<ConfirmDialogContext>(undefined)
+const ConfirmDialog = createContext<ConfirmDialogContext | null>(null)
 
 export function ConfirmDialogProvider({ children }) {
   const [state, setState] = useState({ isOpen: false })
   const fn = useRef(null)
 
   const confirm = useCallback(
-    (data?: Partial<React.ComponentProps<typeof Confirm>>) => {
+    (data?: ConfirmPopup) => {
       return new Promise<boolean>(resolve => {
         setState({ ...data, isOpen: true })
 
@@ -35,11 +27,7 @@ export function ConfirmDialogProvider({ children }) {
   return (
     <ConfirmDialog.Provider value={confirm}>
       {children}
-      <Confirm
-        {...state}
-        onClose={() => fn.current(false)}
-        onConfirm={() => fn.current(true)}
-      />
+      <Confirm {...state} onClose={() => fn.current(false)} onConfirm={() => fn.current(true)} />
     </ConfirmDialog.Provider>
   )
 }

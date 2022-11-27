@@ -5,9 +5,7 @@ import useStore from '../../store/store.context'
 import { useToast } from '../../common/Toaster'
 import TaskForm from './components/TaskForm/TaskForm'
 import TaskItem from './components/TaskItem/TaskItem'
-import { editTitleFolder } from '../../api/folderService'
-
-import type { FolderItem } from '../App'
+import { editTitleFolder } from '../../services/folderService'
 
 import EditIcon from 'icon:../../assets/img/edit.svg'
 import Plus from 'icon:../../assets/img/add.svg'
@@ -75,8 +73,7 @@ const TaskList: React.FC<TodoListProps> = props => {
             />
           ) : (
             <>
-              {newTitle}{' '}
-              <EditIcon className={styles.edit} onClick={onEditHandler} />{' '}
+              {newTitle} <EditIcon className={styles.edit} onClick={onEditHandler} />{' '}
             </>
           )}
         </h1>

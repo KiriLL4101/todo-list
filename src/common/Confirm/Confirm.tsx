@@ -1,10 +1,11 @@
 import React from 'react'
-import Button from '../Button/Button'
+
+import { Button } from '../Button/Button'
 import Modal from '../Modal/Modal'
 
 import * as styles from './Confirm.module.css'
 
-interface ConfirmPopup {
+export interface ConfirmPopup {
   title?: string
   isOpen: boolean
   onClose: () => void

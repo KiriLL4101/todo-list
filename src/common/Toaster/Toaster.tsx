@@ -56,12 +56,7 @@ const VARIANTS = {
   },
 }
 
-const Toaster: React.FC<ToasterProps> = ({
-  isOpen,
-  message,
-  type,
-  onClose,
-}) => {
+const Toaster: React.FC<ToasterProps> = ({ isOpen, message, type, onClose }) => {
   if (!isOpen) {
     return null
   }

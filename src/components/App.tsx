@@ -3,27 +3,6 @@ import useStore from '../store/store.context'
 import TaskList from './TaskList/TaskList'
 import FolderList from './FolderList/FolderList'
 
-export interface FolderItem {
-  id: number
-  colorId: number
-  name: string
-  color?: Color
-  tasks?: Task[]
-}
-
-export interface Task {
-  id: number
-  listId: number
-  text: string
-  completed: boolean
-}
-
-export interface Color {
-  hex: string
-  id: number
-  name: string
-}
-
 export const App: React.FC = () => {
   const { selectedFolder } = useStore()
 
@@ -33,9 +12,7 @@ export const App: React.FC = () => {
         <FolderList />
         <section className={'p-14 w-full h-[650px] overflow-y-scroll'}>
           {selectedFolder.length > 0 ? (
-            selectedFolder.map(folder => (
-              <TaskList key={folder.id} {...folder} />
-            ))
+            selectedFolder.map(folder => <TaskList key={folder.id} {...folder} />)
           ) : (
             <div>Задачи отсутствуют</div>
           )}

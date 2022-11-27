@@ -10,7 +10,7 @@ interface CheckboxProps {
   onClick: () => void
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
+export const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
   return (
     <div
       className={classNames(styles.checkbox, {
@@ -22,5 +22,3 @@ const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
     </div>
   )
 }
-
-export default Checkbox

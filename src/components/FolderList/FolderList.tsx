@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-import Badge from '../../common/Badge/Badge'
+import { Badge } from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
 import useConfirm from '../../common/Confirm/Confirm.context'
 import useToast from '../../common/Toaster/Toaster.context'
 import useStore from '../../store/store.context'
-import { removeFolder } from '../../api/folderService'
+import { removeFolder } from '../../services/folderService'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
 import RemoveIcon from 'icon:../../assets/img/remove.svg'

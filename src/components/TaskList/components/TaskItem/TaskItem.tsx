@@ -4,7 +4,7 @@ import { Checkbox } from '../../../../common/Checkbox'
 import { useConfirm } from '../../../../common/Confirm'
 import { useToast } from '../../../../common/Toaster'
 import useStore from '../../../../store/store.context'
-import { completedTask, removeTask } from '../../../../api/taskService'
+import { completedTask, removeTask } from '../../../../services/taskService'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import Toaster, { ToasterProps } from './Toaster'
 
 type ToasterContextData = (data: Partial<ToasterProps>) => void
@@ -16,7 +16,7 @@ export function ToasterProvider({ children }) {
     }, 5000)
   }, [state.isOpen])
 
-  const toaste = (data: Partial<ToasterProps>) => {
+  const toaster = (data: Partial<ToasterProps>) => {
     setState({ ...data, onClose: onCloseHandler, isOpen: true })
   }
 
@@ -25,7 +25,7 @@ export function ToasterProvider({ children }) {
   }
 
   return (
-    <ToasterContext.Provider value={toaste}>
+    <ToasterContext.Provider value={toaster}>
       {children}
       <Toaster {...state} />
     </ToasterContext.Provider>
@@ -33,5 +33,9 @@ export function ToasterProvider({ children }) {
 }
 
 export default function useToast() {
-  return useContext(ToasterContext)
+  const context = useContext(ToasterContext)
+  if (context === undefined) {
+    throw new Error('useToast hook must be used within a Context Provider')
+  }
+  return context
 }

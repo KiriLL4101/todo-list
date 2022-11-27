@@ -1,24 +1,9 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
-import { requestFolderList } from '../api/folderService'
-import type { FolderItem, Task } from '../components/App'
+import { requestFolderList } from '../services/folderService'
+import type { Store } from './store.type'
 
-interface Action {
-  onAddNewFolder: (folder: FolderItem) => void
-  onSelectFolder: (folder: FolderItem[]) => void
-  onRemoveFolder: (id: FolderItem['id']) => void
-  onEditTitle: (id: FolderItem['id'], name: FolderItem['name']) => void
-  onCompletedTask: (id: FolderItem['id'], task: Task) => void
-  onRemoveTask: (listId: FolderItem['id'], task: Task['id']) => void
-  onAddNewTask: (listId: FolderItem['id'], task: Task) => void
-}
-interface Store {
-  folders: FolderItem[]
-  selectedFolder: FolderItem[]
-  actions: Action
-}
-
-const StoreContext = createContext<Store>(null)
+const StoreContext = createContext<Store | null>(null)
 
 export function StoreProvider({ children }) {
   const [folders, setFolders] = useState<FolderItem[]>([])
@@ -87,13 +72,17 @@ export function StoreProvider({ children }) {
     [folders, selectedFolder]
   )
 
-  return <StoreContext.Provider value={{ folders, selectedFolder, actions }}>{children}</StoreContext.Provider>
+  return (
+    <StoreContext.Provider value={{ folders, selectedFolder, actions }}>
+      {children}
+    </StoreContext.Provider>
+  )
 }
 
 export default function useStore() {
   const context = useContext(StoreContext)
   if (context === undefined) {
-    throw new Error('Store hook must be used within a Context Provider')
+    throw new Error('useStore hook must be used within a Context Provider')
   }
   return context
 }

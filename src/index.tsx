@@ -16,5 +16,5 @@ root.render(
         <App />
       </ConfirmDialogProvider>
     </ToasterProvider>
-  </StoreProvider>
+  </StoreProvider>,
 )

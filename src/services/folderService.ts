@@ -1,7 +1,5 @@
 const requestFolderList = (): Promise<FolderItem[]> => {
-  return fetch(process.env.API_URL + '/lists?_expand=color&_embed=tasks').then(
-    res => res.json()
-  )
+  return fetch(process.env.API_URL + '/lists?_expand=color&_embed=tasks').then(res => res.json())
 }
 
 const removeFolder = (id: number): Promise<unknown> => {

@@ -11,11 +11,7 @@ interface TaskItem {
   id: number
 }
 
-const createTask = ({
-  listId,
-  text,
-  completed,
-}: NewTask): Promise<TaskItem> => {
+const createTask = ({ listId, text, completed }: NewTask): Promise<TaskItem> => {
   return fetch(process.env.API_URL + '/tasks', {
     method: 'POST',
     headers: {

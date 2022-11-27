@@ -15,7 +15,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@kfedechkin/fdk-eslint-config": "1.0.12",
+    "@kfedechkin/fdk-eslint-config": "1.0.13",
     "@parcel/transformer-svg-react": "^2.7.0",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.18",
