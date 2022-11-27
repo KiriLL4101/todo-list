@@ -18,7 +18,7 @@ interface Store {
   actions: Action
 }
 
-const Store = createContext<Store>(null)
+const StoreContext = createContext<Store>(null)
 
 export function StoreProvider({ children }) {
   const [folders, setFolders] = useState<FolderItem[]>([])
@@ -87,11 +87,11 @@ export function StoreProvider({ children }) {
     [folders, selectedFolder]
   )
 
-  return <Store.Provider value={{ folders, selectedFolder, actions }}>{children}</Store.Provider>
+  return <StoreContext.Provider value={{ folders, selectedFolder, actions }}>{children}</StoreContext.Provider>
 }
 
 export default function useStore() {
-  const context = useContext(Store)
+  const context = useContext(StoreContext)
   if (context === undefined) {
     throw new Error('Store hook must be used within a Context Provider')
   }
