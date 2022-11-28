@@ -1,4 +1,4 @@
-# [Todo-app](https://todo-app-kirill4101.vercel.app/)
+# [Todo-list](https://todo-app-kirill4101.vercel.app/)
 
 ## О проекте
 
