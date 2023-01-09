@@ -1121,10 +1121,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@kfedechkin/fdk-eslint-config@1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@kfedechkin/fdk-eslint-config/-/fdk-eslint-config-1.0.12.tgz#61100fe02288fbd50ff9ee16f578b58bce3ae134"
-  integrity sha512-251t4zrFWQG851Fzx65klScmRaKc474xpiCZNpLIKeiMvqKir+nkJeMY+3iqTpEGCNNZofhkuVT2UfgSLa9LuA==
+"@kfedechkin/fdk-eslint-config@1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@kfedechkin/fdk-eslint-config/-/fdk-eslint-config-1.0.13.tgz#4f118d7f416b75ff0328d1af8519b8957940a980"
+  integrity sha512-nL7276lxjk4HvDK3Re+QRL2k1w99yfui5Q8O8L8iXCNEZcqdZGMbon/sOkE/q+sAK91MypTM6gNQS5u6k4HDrg==
   dependencies:
     "@babel/core" "^7.16.0"
     "@babel/eslint-parser" "^7.16.3"
