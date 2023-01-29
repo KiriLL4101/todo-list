@@ -15,7 +15,11 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 const FolderList: React.FC = () => {
-  const { folders, selectedFolder, actions } = useStore()
+  const {
+    folders,
+    selectedFolder,
+    actions: { onSelectFolder, onRemoveFolder },
+  } = useStore()
 
   const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -32,8 +36,8 @@ const FolderList: React.FC = () => {
     }
   }, [selectedFolder])
 
-  const onClickFolder = (folder: FolderItem[]) => {
-    actions.onSelectFolder(folder)
+  const onClickFolder = (id: FolderItem['id'] | null) => {
+    onSelectFolder(id)
   }
 
   const onCloseHandler = () => {
@@ -46,9 +50,7 @@ const FolderList: React.FC = () => {
     if (choice) {
       removeFolder(id)
         .then(() => {
-          actions.onRemoveFolder(id)
-
-          actions.onSelectFolder([folders[0]])
+          onRemoveFolder(id)
 
           toaster({
             message: 'Задача успешно удалена',
@@ -69,7 +71,7 @@ const FolderList: React.FC = () => {
         className={classNames(styles.folderItem, styles.allFolders, {
           [styles.activeItem]: activeId === 0,
         })}
-        onClick={() => onClickFolder(folders)}
+        onClick={() => onClickFolder(null)}
       >
         <ListIcon />
         Все задачи
@@ -83,7 +85,7 @@ const FolderList: React.FC = () => {
                 className={classNames(styles.folderItem, {
                   [styles.activeItem]: activeId === folder.id,
                 })}
-                onClick={() => onClickFolder([folder])}
+                onClick={() => onClickFolder(folder.id)}
               >
                 {folder?.color && <Badge color={folder?.color.name} />}
                 <span className={styles.name}>{folder.name}</span>

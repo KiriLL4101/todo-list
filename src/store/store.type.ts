@@ -3,10 +3,10 @@ export interface Store {
   selectedFolder: FolderItem[]
   actions: Actions
 }
-
+// TODO Type Actions
 export interface Actions {
   onAddNewFolder: (folder: FolderItem) => void
-  onSelectFolder: (folder: FolderItem[]) => void
+  onSelectFolder: (id: FolderItem['id'] | null) => void
   onRemoveFolder: (id: FolderItem['id']) => void
   onEditTitle: (id: FolderItem['id'], name: FolderItem['name']) => void
   onCompletedTask: (id: FolderItem['id'], task: Task) => void

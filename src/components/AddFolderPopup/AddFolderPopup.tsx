@@ -58,7 +58,6 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
         const color = colors.filter(v => v.id === data.colorId)[0]
 
         actions.onAddNewFolder({ ...data, color })
-        actions.onSelectFolder([{ ...data, color }])
 
         onClose()
 
