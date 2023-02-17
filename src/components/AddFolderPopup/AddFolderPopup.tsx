@@ -5,7 +5,7 @@ import { Badge } from '../../common/Badge'
 import { Field } from '../../common/Field'
 import { Button } from '../../common/Button'
 import { useToast } from '../../common/Toaster'
-import useStore from '../../store/store.context'
+import { useStore } from '../../store/store.context'
 import { createNewFolder } from '../../services/folderService'
 import { requestColorList } from '../../services/colorService'
 
@@ -57,7 +57,7 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
       .then(data => {
         const color = colors.filter(v => v.id === data.colorId)[0]
 
-        actions.onAddNewFolder({ ...data, color })
+        actions.onAddFolder({ ...data, color })
 
         onClose()
 

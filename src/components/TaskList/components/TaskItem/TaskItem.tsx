@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Checkbox } from '../../../../common/Checkbox'
 import { useConfirm } from '../../../../common/Confirm'
 import { useToast } from '../../../../common/Toaster'
-import useStore from '../../../../store/store.context'
+import { useStore } from '../../../../store/store.context'
 import { completedTask, removeTask } from '../../../../services/taskService'
 
 import RemoveIcon from 'icon:../../../../assets/img/remove.svg'
@@ -34,7 +34,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
     completedTask(id, !isChecked)
       .then(data => {
         const { listId } = data
-        actions.onCompletedTask(listId, data)
+        actions.onCompletedTask({ folderId: listId, taskId: data.id })
       })
       .catch(() => {
         toaster({
@@ -50,7 +50,7 @@ const TaskItem: React.FC<TaskItemProps> = props => {
     if (choice) {
       removeTask(id)
         .then(() => {
-          actions.onRemoveTask(listId, id)
+          actions.onRemoveTask({ folderId: listId, taskId: id })
           toaster({
             message: 'Задача успешно удалена',
           })

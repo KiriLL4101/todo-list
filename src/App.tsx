@@ -1,10 +1,21 @@
-import React from 'react'
-import useStore from '../store/store.context'
-import TaskList from './TaskList/TaskList'
-import FolderList from './FolderList/FolderList'
+import React, { useEffect } from 'react'
+
+import TaskList from './components/TaskList/TaskList'
+import FolderList from './components/FolderList/FolderList'
+import { useStore } from './store/store.context'
+import { requestFolderList } from './services/folderService'
 
 export const App: React.FC = () => {
-  const { selectedFolder } = useStore()
+  const {
+    selectedFolder,
+    actions: { onSetFolder },
+  } = useStore()
+
+  useEffect(() => {
+    requestFolderList().then(data => {
+      onSetFolder(data)
+    })
+  }, [])
 
   return (
     <div className={'flex justify-center items-center h-screen w-screen'}>

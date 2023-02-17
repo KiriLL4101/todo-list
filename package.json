@@ -45,5 +45,8 @@
     "extends": [
       "fdk-eslint-config"
     ]
+  },
+  "alias": {
+    "@services/*": "./src/services"
   }
 }

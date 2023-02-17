@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Button } from '../../../../common/Button'
 import { Field } from '../../../../common/Field'
-import useStore from '../../../../store/store.context'
+import { useStore } from '../../../../store/store.context'
 import { createTask } from '../../../../services/taskService'
 
 import * as styles from './TaskForm.module.css'
@@ -27,7 +27,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
     }).then(data => {
       const { listId } = data
 
-      actions.onAddNewTask(listId, data)
+      // actions.onAddNewTask(listId, data)
 
       onClose()
     })

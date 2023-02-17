@@ -1,32 +1,57 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 
-import { requestFolderList } from '../services/folderService'
-import type { Store } from './store.type'
+import { useMethods } from '../hooks/useMethods'
+import { Store, StoreContextValue } from './store.type'
 
-const StoreContext = createContext<Store | null>(null)
+const StoreContext = createContext<StoreContextValue | null>(null)
 
-const removeTask = (folderId: FolderItem['id'], taskId: Task['id']) => item =>
-  item.id === folderId
-    ? {
-        ...item,
-        tasks: item.tasks.filter(v => v.id !== taskId),
-      }
-    : item
+interface StoreProviderProps {
+  children: ReactNode
+}
 
-const addTask = (folderId: FolderItem['id'], task: Task) => item =>
-  item.id === folderId
-    ? {
-        ...item,
-        tasks: item?.tasks ? [...item.tasks, task] : [task],
-      }
-    : item
-
-const completedTask = (id: FolderItem['id'], task: Task) => item =>
-  item.id === id ? { ...item, tasks: item?.tasks.map(v => (v.id === task.id ? task : v)) } : item
-
-export function StoreProvider({ children }) {
-  const [folders, setFolders] = useState<FolderItem[]>([])
+export function StoreProvider({ children }: StoreProviderProps) {
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null)
+
+  const [{ folders }, actions] = useMethods(
+    () => ({
+      onSetFolder(state, payload) {
+        return { ...state, folders: payload }
+      },
+      onAddFolder(state, payload) {
+        return { ...state, folders: [...state.folders, payload] }
+      },
+      onRemoveFolder(state, payload) {
+        return { ...state, folders: state.folders.filter(folder => folder.id !== payload) }
+      },
+      onEditTitle(state, { id, name }) {
+        return { ...state, folders: state.folders.map(v => (v.id === id ? { ...v, name } : v)) }
+      },
+      onAddNewTask: (state, { folderId, task }) => {
+        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
+
+        folder = { ...folder, tasks: [...(folder?.tasks || []), task] }
+        return { ...state, folders: [...state.folders, { ...folder }] }
+      },
+      onRemoveTask: (state, { folderId, taskId }) => {
+        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
+
+        folder = { ...folder, tasks: (folder?.tasks || []).filter(folder => folder.id !== taskId) }
+        return { ...state, folders: [...state.folders, { ...folder }] }
+      },
+      onCompletedTask: (state, { folderId, taskId }) => {
+        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
+        let tasks = (folder?.tasks || []).map(task => {
+          if (task.id === taskId) {
+            return { ...task, completed: !task.completed }
+          }
+          return task
+        })
+
+        return { ...state, folders: [...state.folders, { ...folder, tasks }] }
+      },
+    }),
+    { folders: [] } as Store,
+  )
 
   const selectedFolder = useMemo(() => {
     if (selectedFolderId === null) return folders
@@ -34,60 +59,23 @@ export function StoreProvider({ children }) {
     return folders.filter(folder => folder.id === selectedFolderId)
   }, [folders, selectedFolderId])
 
-  const actions = useMemo(
-    () => ({
-      onAddNewFolder: (folder: FolderItem) => {
-        setFolders(prev => [...prev, folder])
-      },
-
-      onRemoveFolder: (id: FolderItem['id']) => {
-        setFolders(prev => prev.filter(folder => folder.id !== id))
-
-        if (selectedFolderId === id) {
-          setSelectedFolderId(null)
-        }
-      },
-
-      onEditTitle: (id: FolderItem['id'], name: FolderItem['name']) => {
-        setFolders(prev => prev.map(v => (v.id === id ? { ...v, name } : v)))
-      },
-
-      onSelectFolder: (id: FolderItem['id']) => {
-        setSelectedFolderId(id)
-      },
-
-      onCompletedTask: (id: FolderItem['id'], task: Task) => {
-        setFolders(prev => prev.map(completedTask(id, task)))
-      },
-
-      onRemoveTask: (folderId: FolderItem['id'], taskId: Task['id']) => {
-        setFolders(prev => prev.map(removeTask(folderId, taskId)))
-      },
-
-      onAddNewTask: (folderId: FolderItem['id'], task: Task) => {
-        setFolders(prev => prev.map(addTask(folderId, task)))
-      },
-    }),
-    [folders, selectedFolderId],
-  )
-
-  useEffect(() => {
-    requestFolderList().then(data => {
-      setFolders(data)
-    })
-  }, [])
+  const onSelectFolder = (id: FolderItem['id'] | null) => {
+    setSelectedFolderId(id)
+  }
 
   return (
-    <StoreContext.Provider value={{ folders, selectedFolder, actions }}>
+    <StoreContext.Provider
+      value={{ folders, selectedFolder, actions: { ...actions, onSelectFolder } }}
+    >
       {children}
     </StoreContext.Provider>
   )
 }
 
-export default function useStore() {
+export function useStore() {
   const context = useContext(StoreContext)
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useStore hook must be used within a Context Provider')
   }
 
