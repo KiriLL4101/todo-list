@@ -4,12 +4,15 @@
 
 body {
     font-family: 'Lato', sans-serif;
-    @apply font-normal;
+    @apply font-normal bg-gray-100;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
-    @apply bg-gray-100;
+
+    background-image: 
+            url('https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg');
+            background-size: cover; 
+            backdrop-filter: blur(2px);
 }
 
 .badge--green {

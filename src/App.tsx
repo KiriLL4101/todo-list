@@ -21,7 +21,7 @@ export const App: React.FC = () => {
     <div className={'flex justify-center items-center h-screen w-screen'}>
       <main className={'flex w-[800px] shadow-lg'}>
         <FolderList />
-        <section className={'p-14 w-full h-[650px] overflow-y-scroll'}>
+        <section className={'p-14 w-full h-[650px] overflow-y-scroll bg-white'}>
           {selectedFolder.length > 0 ? (
             selectedFolder.map(folder => <TaskList key={folder.id} {...folder} />)
           ) : (
