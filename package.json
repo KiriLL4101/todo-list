@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "parcel src/index.html",
     "build": "parcel build",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "prepare": "husky install"
   },
   "dependencies": {
     "classnames": "^2.3.1",
@@ -21,7 +22,7 @@
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.28.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "parcel": "^2.7.0",
     "postcss": "^8.4.16",
@@ -31,9 +32,9 @@
     "typescript": "4.8.2"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier . --write .ts,.tsx",
-      "eslint . --fix --ext .ts,.tsx"
+    "./src/**/*.{ts,tsx}": [
+      "npx prettier --write",
+      "npx eslint --fix"
     ]
   },
   "husky": {
@@ -45,5 +46,8 @@
     "extends": [
       "fdk-eslint-config"
     ]
+  },
+  "alias": {
+    "@services/*": "./src/services"
   }
 }

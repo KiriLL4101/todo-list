@@ -1,12 +1,22 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
+        "target": "ES2022",
         "lib": [
             "DOM",
             "DOM.Iterable",
             "ESNext"
         ],
         "allowJs": false,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "allowUnusedLabels": true,
+        "allowUnreachableCode": false,
+        "skipDefaultLibCheck": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
@@ -15,10 +25,15 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
+        "removeComments": true,
+        "downlevelIteration": true,
+        "newLine": "crlf",
         "noEmit": true,
         "jsx": "react-jsx",
-        "baseUrl": "./src",
-        "paths": {}
+        "baseUrl": "src",
+        "paths": {
+            "@services/*": ["services/*"]
+        }
     },
     "include": [
         "./src/**/*",

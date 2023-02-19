@@ -3,9 +3,9 @@ import classNames from 'classnames'
 
 import { Badge } from '../../common/Badge/Badge'
 import AddFolderPopup from '../AddFolderPopup/AddFolderPopup'
-import useConfirm from '../../common/Confirm/Confirm.context'
+import { useConfirm } from '../../common/Confirm/Confirm.context'
 import useToast from '../../common/Toaster/Toaster.context'
-import useStore from '../../store/store.context'
+import { useStore } from '../../store/store.context'
 import { removeFolder } from '../../services/folderService'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
@@ -15,11 +15,7 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 const FolderList: React.FC = () => {
-  const {
-    folders,
-    selectedFolder,
-    actions: { onSelectFolder, onRemoveFolder },
-  } = useStore()
+  const { folders, selectedFolder, actions } = useStore()
 
   const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -37,7 +33,7 @@ const FolderList: React.FC = () => {
   }, [selectedFolder])
 
   const onClickFolder = (id: FolderItem['id'] | null) => {
-    onSelectFolder(id)
+    actions.onSelectFolder(id)
   }
 
   const onCloseHandler = () => {
@@ -50,7 +46,7 @@ const FolderList: React.FC = () => {
     if (choice) {
       removeFolder(id)
         .then(() => {
-          onRemoveFolder(id)
+          actions.onRemoveFolder(id)
 
           toaster({
             message: 'Задача успешно удалена',

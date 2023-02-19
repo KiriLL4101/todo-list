@@ -1,15 +1,19 @@
 export interface Store {
   folders: FolderItem[]
-  selectedFolder: FolderItem[]
-  actions: Actions
 }
-// TODO Type Actions
+
 export interface Actions {
-  onAddNewFolder: (folder: FolderItem) => void
+  onAddFolder: (payload: FolderItem) => void
+  onRemoveFolder: (payload: FolderItem['id']) => void
   onSelectFolder: (id: FolderItem['id'] | null) => void
-  onRemoveFolder: (id: FolderItem['id']) => void
-  onEditTitle: (id: FolderItem['id'], name: FolderItem['name']) => void
-  onCompletedTask: (id: FolderItem['id'], task: Task) => void
-  onRemoveTask: (listId: FolderItem['id'], task: Task['id']) => void
-  onAddNewTask: (listId: FolderItem['id'], task: Task) => void
+  onSetFolder: (payload: FolderItem[]) => void
+  onEditTitle: (payload: { id: FolderItem['id']; name: FolderItem['name'] }) => void
+  onAddNewTask: (payload: { folderId: FolderItem['id']; task: Task }) => void
+  onRemoveTask: (payload: { folderId: FolderItem['id']; taskId: Task['id'] }) => void
+  onCompletedTask: (payload: { folderId: FolderItem['id']; taskId: Task['id'] }) => void
+}
+
+export interface StoreContextValue extends Store {
+  actions: Actions
+  selectedFolder: FolderItem[]
 }

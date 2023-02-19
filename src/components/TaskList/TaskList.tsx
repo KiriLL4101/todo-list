@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import { Field } from '../../common/Field'
-import useStore from '../../store/store.context'
+import { useStore } from '../../store/store.context'
 import { useToast } from '../../common/Toaster'
+import { editTitleFolder } from '../../services/folderService'
 import TaskForm from './components/TaskForm/TaskForm'
 import TaskItem from './components/TaskItem/TaskItem'
-import { editTitleFolder } from '../../services/folderService'
 
 import EditIcon from 'icon:../../assets/img/edit.svg'
 import Plus from 'icon:../../assets/img/add.svg'
@@ -44,7 +44,7 @@ const TaskList: React.FC<TodoListProps> = props => {
 
     editTitleFolder(id, newTitle)
       .then(() => {
-        actions.onEditTitle(id, newTitle)
+        actions.onEditTitle({ id, name: newTitle })
         setIsEditable(false)
       })
       .catch(() => {
@@ -62,7 +62,7 @@ const TaskList: React.FC<TodoListProps> = props => {
   return (
     <div className={'mb-5'}>
       {name && (
-        <h1 className={styles.title} style={{ color: color.hex }}>
+        <h1 className={styles.title} style={{ color: color && color.hex }}>
           {isEditable ? (
             <Field
               autoFocus={true}
@@ -79,7 +79,7 @@ const TaskList: React.FC<TodoListProps> = props => {
         </h1>
       )}
       <ul className={styles.list}>
-        {tasks?.length > 0 && tasks.map(task => <TaskItem key={task.id} {...task} />)}
+        {!!tasks?.length && tasks.map(task => <TaskItem key={task.id} {...task} />)}
       </ul>
 
       {isOpen ? (
