@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-import { Badge } from '../../common/Badge'
-import { Field } from '../../common/Field'
-import { Button } from '../../common/Button'
-import { useToast } from '../../common/Toaster'
+import { Badge } from 'common/Badge'
+import { Field } from 'common/Field'
+import { Button } from 'common/Button'
+import { useToast } from 'common/Toaster'
 import { useStore } from '../../store/store.context'
 import { createNewFolder } from '../../services/folderService'
 import { requestColorList } from '../../services/colorService'
+import { Loader } from 'common/Loader/Loader'
+import { useMethods } from 'hooks/useMethods'
 
 import CloseIcon from 'icon:../../assets/img/close.svg'
 
@@ -17,16 +19,46 @@ interface AddFolderPopupProps {
   onClose: () => void
 }
 
-const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
-  const [colors, setColors] = useState<Color[]>([])
-  const [selectedColorId, setSelectedColorId] = useState<Color['id']>(1)
-  const [nameFolder, setNameFolder] = useState<string>('')
+interface Form {
+  nameFolder: string
+  selectedColorId: Color['id']
+  isLoading: boolean
+}
 
-  const { actions } = useStore()
+export const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
+  const [colors, setColors] = useState<Color[]>([])
+
+  const {
+    actions: { onAddFolder },
+  } = useStore()
 
   const toaster = useToast()
 
+  const [
+    { nameFolder, isLoading, selectedColorId },
+    { setNameFolder, setIsLoading, setSelectedColorId },
+  ] = useMethods(
+    () => ({
+      setNameFolder: (state, payload: string) => {
+        return { ...state, nameFolder: payload }
+      },
+      setIsLoading: (state, payload: boolean) => {
+        return { ...state, isLoading: payload }
+      },
+      setSelectedColorId: (state, payload: Color['id']) => {
+        return { ...state, selectedColorId: payload }
+      },
+    }),
+    {
+      nameFolder: '',
+      selectedColorId: 1,
+      isLoading: true,
+    } as Form,
+  )
+
   useEffect(() => {
+    setIsLoading(true)
+
     requestColorList()
       .then(data => {
         setColors(data)
@@ -37,6 +69,7 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
           message: 'Ошибка загрузки цветов',
         })
       })
+      .finally(() => setIsLoading(false))
   }, [])
 
   const onChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +90,7 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
       .then(data => {
         const color = colors.filter(v => v.id === data.colorId)[0]
 
-        actions.onAddFolder({ ...data, color })
+        onAddFolder({ ...data, color })
 
         onClose()
 
@@ -75,29 +108,33 @@ const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
 
   return (
     <div className={styles.popup}>
-      <CloseIcon className={styles.close} onClick={() => onClose()} />
-      <Field
-        type={'text'}
-        placeholder={'Название папки'}
-        onChange={onChangeField}
-        value={nameFolder}
-      />
-      <div className={styles.colorsWrapper}>
-        {colors.length > 0 &&
-          colors.map(color => (
-            <Badge
-              key={color.id}
-              color={color.name}
-              className={classNames({
-                [styles.active]: selectedColorId === color.id,
-              })}
-              onClick={() => onClickColorId(color.id)}
-            />
-          ))}
-      </div>
-      <Button onClick={() => addFolder()}>Добавить</Button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <CloseIcon className={styles.close} onClick={() => onClose()} />
+          <Field
+            type={'text'}
+            placeholder={'Название папки'}
+            onChange={onChangeField}
+            value={nameFolder}
+          />
+          <div className={styles.colorsWrapper}>
+            {colors.length > 0 &&
+              colors.map(color => (
+                <Badge
+                  key={color.id}
+                  color={color.name}
+                  className={classNames({
+                    [styles.active]: selectedColorId === color.id,
+                  })}
+                  onClick={() => onClickColorId(color.id)}
+                />
+              ))}
+          </div>
+          <Button onClick={() => addFolder()}>Добавить</Button>
+        </>
+      )}
     </div>
   )
 }
-
-export default AddFolderPopup

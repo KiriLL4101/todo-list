@@ -48,6 +48,7 @@
     ]
   },
   "alias": {
-    "@services/*": "./src/services"
+    "common": "./src/common/",
+    "hooks": "./src/hooks/"
   }
 }
