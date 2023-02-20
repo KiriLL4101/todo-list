@@ -27,7 +27,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ listId, onClose }) => {
     }).then(data => {
       const { listId } = data
 
-      // actions.onAddNewTask(listId, data)
+      actions.onAddNewTask({ folderId: listId, task: data })
 
       onClose()
     })

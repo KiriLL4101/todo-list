@@ -27,27 +27,39 @@ export function StoreProvider({ children }: StoreProviderProps) {
         return { ...state, folders: state.folders.map(v => (v.id === id ? { ...v, name } : v)) }
       },
       onAddNewTask: (state, { folderId, task }) => {
-        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
-
-        folder = { ...folder, tasks: [...(folder?.tasks || []), task] }
-        return { ...state, folders: [...state.folders, { ...folder }] }
+        const folders = state.folders.map(val => {
+          if (val.id === folderId) {
+            return { ...val, tasks: [...(val?.tasks || []), task] }
+          }
+          return val
+        })
+        return { ...state, folders }
       },
       onRemoveTask: (state, { folderId, taskId }) => {
-        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
-
-        folder = { ...folder, tasks: (folder?.tasks || []).filter(folder => folder.id !== taskId) }
-        return { ...state, folders: [...state.folders, { ...folder }] }
+        const folders = state.folders.map(val => {
+          if (val.id === folderId) {
+            return { ...val, tasks: (val?.tasks || []).filter(folder => folder.id !== taskId) }
+          }
+          return val
+        })
+        return { ...state, folders }
       },
       onCompletedTask: (state, { folderId, taskId }) => {
-        let folder = state.folders.find(folder => folder.id === folderId) || ({} as FolderItem)
-        let tasks = (folder?.tasks || []).map(task => {
-          if (task.id === taskId) {
-            return { ...task, completed: !task.completed }
+        const folders = state.folders.map(val => {
+          if (val.id === folderId) {
+            return {
+              ...val,
+              tasks: (val?.tasks || []).map(task => {
+                if (task.id === taskId) {
+                  return { ...task, completed: !task.completed }
+                }
+                return task
+              }),
+            }
           }
-          return task
+          return val
         })
-
-        return { ...state, folders: [...state.folders, { ...folder, tasks }] }
+        return { ...state, folders }
       },
     }),
     { folders: [] } as Store,
