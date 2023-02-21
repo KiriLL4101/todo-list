@@ -29,7 +29,7 @@ export const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
   const [colors, setColors] = useState<Color[]>([])
 
   const {
-    actions: { onAddFolder },
+    actions: { onAddFolder, onSelectFolder },
   } = useStore()
 
   const toaster = useToast()
@@ -91,6 +91,8 @@ export const AddFolderPopup: React.FC<AddFolderPopupProps> = ({ onClose }) => {
         const color = colors.filter(v => v.id === data.colorId)[0]
 
         onAddFolder({ ...data, color })
+
+        onSelectFolder(data.id)
 
         onClose()
 

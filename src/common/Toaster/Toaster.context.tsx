@@ -1,11 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 import Toaster, { ToasterProps } from './Toaster'
 
 type ToasterContextData = (data: Partial<ToasterProps>) => void
 
-const ToasterContext = createContext<ToasterContextData>(undefined)
+const ToasterContext = createContext<ToasterContextData | null>(null)
 
-export function ToasterProvider({ children }) {
+export function ToasterProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ToasterProps>({ isOpen: false })
 
   useEffect(() => {
@@ -32,10 +32,12 @@ export function ToasterProvider({ children }) {
   )
 }
 
-export default function useToast() {
+export function useToast() {
   const context = useContext(ToasterContext)
-  if (context === undefined) {
+
+  if (!context) {
     throw new Error('useToast hook must be used within a Context Provider')
   }
+
   return context
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-import { Badge } from '../../common/Badge/Badge'
+import { Badge } from 'common/Badge'
+import { useConfirm } from 'common/Confirm'
+import { useToast } from 'common/Toaster'
+import { removeFolder } from 'services/folderService'
 import { AddFolderPopup } from '../AddFolderPopup/AddFolderPopup'
-import { useConfirm } from '../../common/Confirm/Confirm.context'
-import useToast from '../../common/Toaster/Toaster.context'
 import { useStore } from '../../store/store.context'
-import { removeFolder } from '../../services/folderService'
 
 import ListIcon from 'icon:../../assets/img/list.svg'
 import RemoveIcon from 'icon:../../assets/img/remove.svg'
@@ -15,7 +15,11 @@ import Plus from 'icon:../../assets/img/add.svg'
 import * as styles from './FolderList.module.css'
 
 const FolderList: React.FC = () => {
-  const { folders, selectedFolder, actions } = useStore()
+  const {
+    folders,
+    selectedFolder,
+    actions: { onSelectFolder, onRemoveFolder },
+  } = useStore()
 
   const [activeId, setActiveId] = useState<FolderItem['id']>(0)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -33,7 +37,7 @@ const FolderList: React.FC = () => {
   }, [selectedFolder])
 
   const onClickFolder = (id: FolderItem['id'] | null) => {
-    actions.onSelectFolder(id)
+    onSelectFolder(id)
   }
 
   const onCloseHandler = () => {
@@ -41,12 +45,14 @@ const FolderList: React.FC = () => {
   }
 
   const onRemoveFolderHandler = async (id: FolderItem['id']) => {
-    const choice = await confirm()
+    const choice = await confirm({
+      title: 'Вы уверены что хотите удалить папку?',
+    })
 
     if (choice) {
       removeFolder(id)
         .then(() => {
-          actions.onRemoveFolder(id)
+          onRemoveFolder(id)
 
           toaster({
             message: 'Задача успешно удалена',

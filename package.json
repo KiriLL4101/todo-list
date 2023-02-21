@@ -49,6 +49,7 @@
   },
   "alias": {
     "common": "./src/common/",
+    "services": "./src/services/",
     "hooks": "./src/hooks/"
   }
 }
