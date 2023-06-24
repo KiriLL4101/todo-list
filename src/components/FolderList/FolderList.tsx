@@ -90,7 +90,7 @@ const FolderList: React.FC = () => {
                 onClick={() => onClickFolder(folder.id)}
               >
                 {folder?.color && <Badge color={folder?.color.name} />}
-                <span className={styles.name}>{folder.name}</span>
+                <span className={styles.name} dangerouslySetInnerHTML={{ __html: folder.name }} />
                 <RemoveIcon
                   className={styles.removeIcon}
                   onClick={() => onRemoveFolderHandler(folder.id)}
